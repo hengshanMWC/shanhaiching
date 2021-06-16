@@ -15,11 +15,11 @@ export class Keyboard {
     this.addEvent()
   }
   addEvent () {
-    window.addEventListener('keydown', this.handleKeydown, false)
-    window.addEventListener('keyup', this.handleKeyup, false)
+    this.handleKeydown && window.addEventListener('keydown', this.handleKeydown, false)
+    this.handleKeyup && window.addEventListener('keyup', this.handleKeyup, false)
   }
   removeEvent () {
-    window.removeEventListener('keydown', this.handleKeydown)
-    window.removeEventListener('keyup', this.handleKeyup)
+    this.handleKeydown && window.removeEventListener('keydown', this.handleKeydown)
+    this.handleKeyup && window.removeEventListener('keyup', this.handleKeyup)
   }
 }
