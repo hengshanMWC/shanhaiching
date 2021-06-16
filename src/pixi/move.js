@@ -1,6 +1,5 @@
 import { Keyboard } from './keyboard'
-export function moveRender (app, sprite) {
-  const v = 5
+export function moveRender (app, sprite, v) {
   function handleArrowUp () {
     if (sprite.y > 0) {
       sprite.y -= v
