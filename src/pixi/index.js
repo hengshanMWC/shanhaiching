@@ -2,9 +2,12 @@ import * as PIXI from 'pixi.js'
 import whale from '../assets/whale.png'
 import {
   getDocumentHeight,
-  getDocumentWidth
+  getDocumentWidth,
+  loaderPromise
 } from './utils'
-export default async function () {
+import { Keyboard } from './keyboard'
+
+export async function createPixiApp () {
   const app = new PIXI.Application({
     height: getDocumentHeight(),
     width: getDocumentWidth()
@@ -14,12 +17,66 @@ export default async function () {
     PIXI.Loader.shared.resources.whale.texture
   )
   app.stage.addChild(whaleSprite)
+  window.app = app
+  const v = 5
+  function handleArrowUp () {
+    if (whaleSprite.y > 0) {
+      whaleSprite.y -= v
+    } else {
+      whaleSprite.y = 0
+    }
+  }
+  function handleArrowRight () {
+    const maxX = app.renderer.width - whaleSprite.width
+    if (maxX > whaleSprite.x) {
+      whaleSprite.x += v
+    } else {
+      whaleSprite.x = maxX
+    }
+  }
+  function handleArrowDown () {
+    const maxY = app.renderer.height - whaleSprite.height
+    if (maxY > whaleSprite.y) {
+      whaleSprite.y += v
+    } else {
+      whaleSprite.y = maxY
+    }
+  }
+  function handleArrowLeft () {
+    if (whaleSprite.x > 0) {
+      whaleSprite.x -= v
+    } else {
+      whaleSprite.x -= 0
+    }
+  }
+  new Keyboard('ArrowUp', 
+    function () {
+      handleArrowUp()
+    }, 
+    function () {
+    }
+  )
+  new Keyboard('ArrowRight', 
+    function () {
+      handleArrowRight()
+    }, 
+    function () {
+    }
+  )
+  new Keyboard('ArrowDown', 
+    function () {
+      handleArrowDown()
+    }, 
+    function () {
+    }
+  )
+  new Keyboard('ArrowLeft', 
+    function () {
+      handleArrowLeft()
+    }, 
+    function () {
+    }
+  )
   return app
 }
-function loaderPromise (...arr) {
-  return new Promise(function (resolve) {
-    PIXI.Loader.shared
-    .add(...arr)
-    .load(resolve)
-  })
-}
+

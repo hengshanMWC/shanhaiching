@@ -6,12 +6,12 @@
 
 <script>
 import { ref, onMounted } from 'vue'
-import pixi from './pixi'
+import { createPixiApp } from './pixi'
 export default {
   setup () {
     const pixiContainer = ref(null)
     onMounted(async () => {
-      const app = await pixi()
+      const app = await createPixiApp()
       pixiContainer.value.appendChild(app.view)
     })
     return {
