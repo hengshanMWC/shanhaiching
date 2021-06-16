@@ -1,26 +1,36 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <div class="container">
+    <div ref="pixiContainer" id="pixi"></div>
+  </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
-
+import { ref, onMounted } from 'vue'
+import pixi from './pixi'
 export default {
-  name: 'App',
-  components: {
-    HelloWorld
+  setup () {
+    const pixiContainer = ref(null)
+    onMounted(async () => {
+      const app = await pixi()
+      pixiContainer.value.appendChild(app.view)
+    })
+    return {
+      pixiContainer
+    }
   }
 }
 </script>
 
 <style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+html {
+  overflow: hidden;
+}
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+  
 }
 </style>
