@@ -10,7 +10,7 @@ export class Fish {
     this.direction = direction // r, l
     this.move = () => {
       const speed = this.options.speed
-      this.sprite.x = this.sprite.x + (this.direction === 'l' ? speed : -speed)
+      this.sprite.x += this.direction === 'l' ? speed : -speed
     }
   }
   get delicious () {
@@ -22,7 +22,7 @@ export class Fish {
   set healthValue (value) {
     this._healthValue = value
     this.sprite.width = value
-    this.sprite.height *= this.healthValue / this.size.width
+    this.sprite.height = this.size.height * this.healthValue / this.size.width
   }
   getSprite () {
     return this.sprite
@@ -33,13 +33,13 @@ export class Fish {
       fish.destruction()
       return true
     } else {
+      fish.eat(this.delicious)
       this.destruction()
       return false
     }
   }
   eat (delicious) {
     this.healthValue += delicious
-    this.calculationSize()
   }
   startMove () {
     this.app.ticker.add(this.move)

@@ -1,4 +1,4 @@
-import { hitTestRectangle } from './utils'
+import { hitTestRectangle } from '../utils'
 export class Organization {
   constructor (app) {
     this.app = app

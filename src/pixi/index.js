@@ -4,7 +4,7 @@ import {
   getDocumentWidth,
 } from './utils'
 import { createdWhale } from './myWhale'
-import { Organization } from './container'
+import { Organization } from './lib/container'
 export async function createPixiApp () {
   const app = new PIXI.Application({
     height: getDocumentHeight(),
