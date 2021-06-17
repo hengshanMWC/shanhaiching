@@ -5,24 +5,14 @@ export class Organization {
     this.materialList = []
     this.leadList = []
     this.handleTick = () => {
-      let material, lead
-      for (let i = 0; i < this.leadList.length; i++) {
-        lead = this.leadList[i]
-        for (let j = 0; j < this.materialList.length; j++) {
-          material = this.materialList[i]
-          // 是否碰撞
-          if (hitTestRectangle(lead.getSprite(), material.getSprite())) {
-            // 物料是否比主角大
-            if (material.collision(lead)) {
-              this.remove(lead)
-              return 
-            } else {
-              this.remove(material)
-            }
-          }
-        }
-      }
+      this.forTesting()
     }
+  }
+  get width () {
+    return this.app.renderer.width
+  }
+  get height () {
+    return this.app.renderer.height
   }
   addLead (...lead) {
     this.leadList.push(...lead)
@@ -63,6 +53,48 @@ export class Organization {
   }
   closeTickHitTestRectangle () {
     this.app.ticker.remove(this.handleTick)
+    return this
+  }
+  forTesting () {
+    let material, lead
+    for (let i = 0; i < this.leadList.length; i++) {
+      lead = this.leadList[i]
+      for (let j = 0; j < this.materialList.length; j++) {
+        material = this.materialList[j]
+        if (this.hit(material, lead)) return
+        this.out(material)
+      }
+    }
+  }
+  // 检测碰撞
+  hit (material, lead) {
+    if (hitTestRectangle(lead.getSprite(), material.getSprite())) {
+      // 物料是否比主角大
+      if (material.collision(lead)) {
+        this.remove(lead)
+        return true
+      } else {
+        this.remove(material)
+        return false
+      }
+    }
+    return false
+  }
+  // 检测是否出界
+  out (material) {
+    if (
+      (
+        material.direction === 'l' &&
+        material.getSprite().x > this.width + material.getSprite().width
+      ) ||
+      (
+        material.direction === 'r' &&
+        material.getSprite().x < -material.getSprite().width
+      )
+    ) {
+      material.destruction()
+      this.remove(material)
+    }
     return this
   }
 }
