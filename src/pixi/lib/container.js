@@ -24,17 +24,23 @@ export class Organization {
       }
     }
   }
-  addLead (lead) {
-    this.leadList.push(lead)
-    return this.add(lead)
+  addLead (...lead) {
+    this.leadList.push(...lead)
+    lead.forEach(item => {
+      this.add(item)
+    })
+    return this
   }
   removeLead (lead) {
     const index = this.leadList.findIndex(item => lead === item)
     this.remove(lead, index)
   }
-  addMaterial (material) {
-    this.materialList.push(material)
-    return this.add(material)
+  addMaterial (...material) {
+    this.materialList.push(...material)
+    material.forEach(item => {
+      this.add(item)
+    })
+    return this
   }
   removeMaterial (material) {
     const index = this.materialList.findIndex(item => material === item)

@@ -15,6 +15,9 @@ export async function createPixiApp () {
   organization
     .addLead(whale)
     .openTickHitTestRectangle()
-  return app
+  return {
+    app,
+    organization
+  }
 }
 

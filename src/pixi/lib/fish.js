@@ -6,7 +6,10 @@ export class Fish {
     this.size = size // 图片尺寸
     this.healthValue = healthValue // 生命值
     this._healthValue
-    this.options = options
+    this.options = {
+      speed: 2,
+      ...options,
+    }
     this.direction = direction // r, l
     this.move = () => {
       const speed = this.options.speed
@@ -26,6 +29,12 @@ export class Fish {
   }
   getSprite () {
     return this.sprite
+  }
+  positionOut () {
+    this.sprite.x = this.direction === 'l' 
+      ? -this.sprite.width
+      : this.app.renderer.width
+    return false
   }
   collision (fish) {
     if (this.healthValue > fish.healthValue) {
