@@ -7,7 +7,7 @@ export class Fish {
     this.healthValue = healthValue // 生命值
     this._healthValue
     this.options = {
-      speed: 2,
+      speed: 1,
       ...options,
     }
     this.direction = direction // r, l

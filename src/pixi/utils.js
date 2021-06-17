@@ -1,12 +1,19 @@
-import { Loader } from 'pixi.js'
+import * as PIXI from 'pixi.js'
 export const getDocumentHeight = () => document.documentElement.clientHeight
 export const getDocumentWidth = () => document.documentElement.clientWidth
 export function loaderPromise (...arr) {
   return new Promise(function (resolve) {
-    Loader.shared
+    PIXI.Loader.shared
     .add(...arr)
     .load(resolve)
   })
+}
+export async function getTexture (key, img) {
+  const resources = PIXI.Loader.shared.resources
+  if (!resources[key]) {
+    await loaderPromise(key, img)
+  }
+  return resources[key].texture
 }
 export function hitTestRectangle(r1, r2) {
   //Define the variables we'll need to calculate

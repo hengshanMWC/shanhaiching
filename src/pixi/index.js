@@ -3,7 +3,7 @@ import {
   getDocumentHeight,
   getDocumentWidth,
 } from './utils'
-import { createdWhale } from './myWhale'
+import { createWhale } from './myWhale'
 import { Organization } from './lib/container'
 export async function createPixiApp () {
   const app = new PIXI.Application({
@@ -11,7 +11,7 @@ export async function createPixiApp () {
     width: getDocumentWidth()
   })
   const organization = new Organization(app)
-  const whale = await createdWhale(app)
+  const whale = await createWhale(app)
   organization
     .addLead(whale)
     .openTickHitTestRectangle()
