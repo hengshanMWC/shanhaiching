@@ -1,39 +1,56 @@
-const SCALE = 100
+export const HEALTH_VALUE = 50 // 基础生命值
 export class Fish {
-  constructor (app, sprite, options) {
+  constructor (app, sprite, size, healthValue = HEALTH_VALUE, options = {}, direction = 'l',) {
     this.app = app
     this.sprite = sprite
-    this._options = options
-    this.init()
+    this.size = size // 图片尺寸
+    this.healthValue = healthValue // 生命值
+    this._healthValue
+    this.options = options
+    this.direction = direction // r, l
+    this.move = () => {
+      const speed = this.options.speed
+      this.sprite.x = this.sprite.x + (this.direction === 'l' ? speed : -speed)
+    }
   }
   get delicious () {
-    return this.options.healthValue / 10
+    return this.healthValue / 10
   }
-  init () {
-    this.options = {
-      speed: 5, // 移动速度
-      healthValue: SCALE, // 生命值
-      ...this._options,
-    }
-    this.baseWidth = this.sprite.width
-    this.baseHeight = this.sprite.height
-    this.app.stage.addChild(this.sprite)
+  get healthValue () {
+    return this._healthValue
+  }
+  set healthValue (value) {
+    this._healthValue = value
+    this.sprite.width = value
+    this.sprite.height *= this.healthValue / this.size.width
+  }
+  getSprite () {
+    return this.sprite
   }
   collision (fish) {
     if (this.healthValue > fish.healthValue) {
       this.eat(fish.delicious)
       fish.destruction()
+      return true
     } else {
       this.destruction()
+      return false
     }
   }
   eat (delicious) {
-    this.options.healthValue += delicious
-    const scale = this.options.healthValue / SCALE
-    this.sprite.width = this.baseWidth * scale
-    this.sprite.height = this.baseHeight * scale
+    this.healthValue += delicious
+    this.calculationSize()
+  }
+  startMove () {
+    this.app.ticker.add(this.move)
+    return this
+  }
+  haltMove () {
+    this.app.ticker.remove(this.move)
+    return this
   }
   destruction () {
-    this.app.stage.removeChild(this.sprite)
+    this.haltMove()
+    return this
   }
 }
