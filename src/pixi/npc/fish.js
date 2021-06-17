@@ -4,6 +4,11 @@ import { TILAPIA_FISH } from '../constant/material'
 import { getTexture } from '../utils'
 import tilapiaFishImage from '../../assets/tilapiaFish .png'
 // import { getWhale } from '../myWhale'
+export function factoryFish (app, organization) {
+  setInterval(() => {
+    createFish(app, organization)
+  }, 150)
+}
 export async function createFish (app, organization) {
   // const whale = getWhale()
   const texture = await getTexture('tilapiaFish', tilapiaFishImage)

@@ -8,7 +8,7 @@
 <script>
 import { ref, onMounted } from 'vue'
 import { createPixiApp } from './pixi'
-import { createFish } from './pixi/npc/fish'
+import { factoryFish } from './pixi/npc/fish'
 export default {
   setup () {
     let app, organization
@@ -16,7 +16,7 @@ export default {
     const start = ref(false)
     function handleStart () {
       start.value = true
-      createFish(app, organization)
+      factoryFish(app, organization)
     }
     onMounted(async () => {
       ({ app, organization } = await createPixiApp())

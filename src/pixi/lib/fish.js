@@ -34,7 +34,9 @@ export class Fish {
     this.sprite.x = this.direction === 'l' 
       ? -this.sprite.width
       : this.app.renderer.width
-    return false
+    this.sprite.y = Math.min(this.app.renderer.height, Math.random() * 1000)
+    console.log(this.sprite.y)
+    return this
   }
   collision (fish) {
     if (this.healthValue > fish.healthValue) {
