@@ -18,7 +18,6 @@ export function factoryFish (app, organization) {
   }, 1000)
 }
 export async function createFish (app, organization) {
-  // const whale = getWhale()
   const texture = await getTexture('tilapiaFish', tilapiaFishImage)
   const sprite = new PIXI.Sprite(texture)
   const fish = new Fish(app, sprite, TILAPIA_FISH)

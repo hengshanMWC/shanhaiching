@@ -34,7 +34,10 @@ export class Fish {
     this.sprite.x = this.direction === 'l' 
       ? -this.sprite.width
       : this.app.renderer.width
-    this.sprite.y = Math.min(this.app.renderer.height, Math.random() * 1000)
+    this.sprite.y = Math.min(
+      this.app.renderer.height - this.sprite.height, 
+      Math.random() * 1000
+    )
     return this
   }
   collision (fish) {
