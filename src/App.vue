@@ -8,15 +8,13 @@
 <script>
 import { ref, onMounted } from 'vue'
 import { getGame } from './pixi'
-import { factoryFish } from './pixi/npc/fish'
-import { isIdle, ingMode } from './pixi/reactivity'
+import { isIdle } from './pixi/reactivity'
 export default {
   setup () {
     let game
     const pixiContainer = ref(null)
     function handleStart () {
-      ingMode()
-      factoryFish(game.app, game.organization)
+      game.handleStart()
     }
     onMounted(async () => {
       game = getGame()

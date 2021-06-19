@@ -5,6 +5,8 @@ import {
 } from '../utils'
 import { createWhale } from '../myWhale'
 import { Organization } from './container'
+import { factoryFish } from '../npc/fish'
+import { ingMode } from '../reactivity'
 export async function createPixiApp () {
   const app = new PIXI.Application({
     height: getDocumentHeight(),
@@ -33,5 +35,9 @@ export class Game {
     } = await createPixiApp()
     this.app = app
     this.organization = organization
+  }
+  handleStart () {
+    ingMode()
+    factoryFish(this.app, this.organization)
   }
 }
