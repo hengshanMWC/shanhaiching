@@ -37,7 +37,6 @@ export function hitTestRectangle(r1, r2) {
   // 接触距离
   combinedHalfWidths = r1.halfWidth + r2.halfWidth;
   combinedHalfHeights = r1.halfHeight + r2.halfHeight;
-  
   // x中点距离 < x接触距离 && y中点距离 < x接触距离
   return Math.abs(vx) < combinedHalfWidths &&
         Math.abs(vy) < combinedHalfHeights

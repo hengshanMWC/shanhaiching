@@ -38,15 +38,7 @@ export class Fish {
     return this
   }
   collision (fish) {
-    if (this.healthValue > fish.healthValue) {
-      this.eat(fish.delicious)
-      fish.destruction()
-      return true
-    } else {
-      fish.eat(this.delicious)
-      this.destruction()
-      return false
-    }
+    return this.healthValue > fish.healthValue
   }
   eat (delicious) {
     this.healthValue += delicious

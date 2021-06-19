@@ -1,9 +1,16 @@
+import { watch } from 'vue'
 import { hitTestRectangle } from '../utils'
+import { pauseMode, state } from '../reactivity'
 export class Organization {
   constructor (app) {
     this.app = app
     this.materialList = []
     this.leadList = []
+    watch(state, () => {
+      if (state.value === 'pause') {
+        this.materialList.forEach(material => material.haltMove())
+      }
+    })
     this.handleTick = () => {
       this.forTesting()
     }
@@ -23,7 +30,11 @@ export class Organization {
   }
   removeLead (lead) {
     const index = this.leadList.findIndex(item => lead === item)
-    this.remove(lead, index)
+    if (index !== -1) {
+      this.leadList.splice(index, 1)
+      this.remove(lead)
+    }
+    return this
   }
   addMaterial (...material) {
     this.materialList.push(...material)
@@ -34,17 +45,19 @@ export class Organization {
   }
   removeMaterial (material) {
     const index = this.materialList.findIndex(item => material === item)
-    return this.remove(material, index)
+    if (index !== -1) {
+      this.materialList.splice(index, 1)
+      this.remove(material)
+    }
+    return this
   }
   add (material) {
     this.app.stage.addChild(material.getSprite())
     return this
   }
-  remove (material, index) {
-    if (index !== -1) {
-      this.materialList.splice(index, 1)
-      this.app.stage.removeChild(material.getSprite())
-    }
+  remove (material) {
+    this.app.stage.removeChild(material.getSprite())
+    material.destruction()
     return this
   }
   openTickHitTestRectangle () {
@@ -71,10 +84,12 @@ export class Organization {
     if (hitTestRectangle(lead.getSprite(), material.getSprite())) {
       // 物料是否比主角大
       if (material.collision(lead)) {
-        this.remove(lead)
+        material.eat(lead.delicious)
+        this.removeLead(lead)
         return true
       } else {
-        this.remove(material)
+        lead.eat(material.delicious)
+        this.removeMaterial(material)
         return false
       }
     }
@@ -92,9 +107,11 @@ export class Organization {
         material.getSprite().x < -material.getSprite().width
       )
     ) {
-      material.destruction()
-      this.remove(material)
+      this.removeMaterial(material)
     }
     return this
+  }
+  handlePause () {
+    pauseMode()
   }
 }

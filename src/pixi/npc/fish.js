@@ -4,13 +4,16 @@ import { TILAPIA_FISH } from '../constant/material'
 import { getTexture } from '../utils'
 import tilapiaFishImage from '../../assets/tilapiaFish .png'
 // import { getWhale } from '../myWhale'
+import { isIng } from '../reactivity'
 export function factoryFish (app, organization) {
   setInterval(() => {
-    if (Math.random() > 0.5) {
-      createFish(app, organization)
-      createFish(app, organization)
-    } else {
-      createFish(app, organization)
+    if (isIng.value) {
+      if (Math.random() > 0.5) {
+        createFish(app, organization)
+        createFish(app, organization)
+      } else {
+        createFish(app, organization)
+      }
     }
   }, 1000)
 }
