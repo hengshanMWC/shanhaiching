@@ -1,31 +1,32 @@
 <template>
   <div class="container">
     <div ref="pixiContainer" id="pixi"></div>
-    <div v-if="!start" @click="handleStart" class="start-btn">开始</div>
+    <div v-if="isIdle" @click="handleStart" class="start-btn">开始</div>
   </div>
 </template>
 
 <script>
 import { ref, onMounted } from 'vue'
-import { createPixiApp } from './pixi'
+import { getGame } from './pixi'
 import { factoryFish } from './pixi/npc/fish'
+import { isIdle, ingMode } from './pixi/reactivity'
 export default {
   setup () {
-    let app, organization
+    let game
     const pixiContainer = ref(null)
-    const start = ref(false)
     function handleStart () {
-      start.value = true
-      factoryFish(app, organization)
+      ingMode()
+      factoryFish(game.app, game.organization)
     }
     onMounted(async () => {
-      ({ app, organization } = await createPixiApp())
-      pixiContainer.value.appendChild(app.view)
+      game = getGame()
+      await game.init()
+      pixiContainer.value.appendChild(game.app.view)
     })
     return {
       pixiContainer,
-      start,
-      handleStart
+      handleStart,
+      isIdle
     }
   }
 }

@@ -6,8 +6,13 @@ import tilapiaFishImage from '../../assets/tilapiaFish .png'
 // import { getWhale } from '../myWhale'
 export function factoryFish (app, organization) {
   setInterval(() => {
-    createFish(app, organization)
-  }, 150)
+    if (Math.random() > 0.5) {
+      createFish(app, organization)
+      createFish(app, organization)
+    } else {
+      createFish(app, organization)
+    }
+  }, 1000)
 }
 export async function createFish (app, organization) {
   // const whale = getWhale()
