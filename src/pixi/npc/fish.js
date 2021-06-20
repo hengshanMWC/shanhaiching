@@ -20,7 +20,7 @@ export function factoryFish (app, organization) {
 export async function createFish (app, organization) {
   const texture = await getTexture('tilapiaFish', tilapiaFishImage)
   const sprite = new PIXI.Sprite(texture)
-  const fish = new Fish(app, sprite, TILAPIA_FISH)
+  const fish = new Fish(app, sprite, TILAPIA_FISH, Math.random() > 0.5 ? 'r' : 'l')
   fish.positionOut()
   organization
     .addMaterial(fish)

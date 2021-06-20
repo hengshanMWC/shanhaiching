@@ -2,6 +2,7 @@ import { watch } from 'vue'
 import { hitTestRectangle } from '../utils'
 import { pauseMode, state } from '../reactivity'
 export class Organization {
+  static max = 100
   constructor (app) {
     this.app = app
     this.materialList = []

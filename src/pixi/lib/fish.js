@@ -1,18 +1,15 @@
 export const HEALTH_VALUE = 50 // 基础生命值
 export class Fish {
-  constructor (app, sprite, size, healthValue = HEALTH_VALUE, options = {}, direction = 'l',) {
+  constructor (app, sprite, size, direction = 'l', healthValue = HEALTH_VALUE, speed = 1) {
     this.app = app
     this.sprite = sprite
     this.size = size // 图片尺寸
     this.healthValue = healthValue // 生命值
     this._healthValue
-    this.options = {
-      speed: 1,
-      ...options,
-    }
+    this.speed = speed
     this.direction = direction // r, l
     this.move = () => {
-      const speed = this.options.speed
+      const speed = this.speed
       this.sprite.x += this.direction === 'l' ? speed : -speed
     }
   }
