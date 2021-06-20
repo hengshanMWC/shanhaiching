@@ -2,7 +2,7 @@ import { watch } from 'vue'
 import { hitTestRectangle } from '../utils'
 import { pauseMode, state } from '../reactivity'
 export class Organization {
-  static max = 100
+  static max = 5
   constructor (app) {
     this.app = app
     this.materialList = []
@@ -22,9 +22,17 @@ export class Organization {
   get height () {
     return this.app.renderer.height
   }
+  get Number () {
+    return this.materialList.length + this.leadList.length
+  }
+  get isFull () {
+    return Organization.max <= this.Number
+  }
   addLead (...lead) {
-    this.leadList.push(...lead)
-    lead.forEach(item => {
+    if (this.isFull) return
+    const leads = lead.slice(0, Organization.max - this.Number)
+    this.leadList.push(...leads)
+    leads.forEach(item => {
       this.add(item)
     })
     return this
@@ -38,8 +46,10 @@ export class Organization {
     return this
   }
   addMaterial (...material) {
-    this.materialList.push(...material)
-    material.forEach(item => {
+    if (this.isFull) return
+    const materials = material.slice(0, Organization.max - this.Number)
+    this.materialList.push(...materials)
+    materials.forEach(item => {
       this.add(item)
     })
     return this
