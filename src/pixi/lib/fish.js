@@ -33,7 +33,7 @@ export class Fish {
       : this.app.renderer.width
     this.sprite.y = Math.min(
       this.app.renderer.height - this.sprite.height, 
-      Math.random() * 1000
+      Math.random() * this.app.renderer.height
     )
     return this
   }
