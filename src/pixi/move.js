@@ -1,6 +1,8 @@
 import { Keyboard } from './keyboard'
+import { isPause } from './reactivity' 
 export function arrowMoveRender (app, sprite, v) {
   function handleArrowUp () {
+    if (isPause.value) return
     if (sprite.y > 0) {
       sprite.y -= v
     } else {
@@ -8,6 +10,7 @@ export function arrowMoveRender (app, sprite, v) {
     }
   }
   function handleArrowRight () {
+    if (isPause.value) return
     const maxX = app.renderer.width - sprite.width
     if (maxX > sprite.x) {
       sprite.x += v
@@ -16,6 +19,7 @@ export function arrowMoveRender (app, sprite, v) {
     }
   }
   function handleArrowDown () {
+    if (isPause.value) return
     const maxY = app.renderer.height - sprite.height
     if (maxY > sprite.y) {
       sprite.y += v
@@ -24,6 +28,7 @@ export function arrowMoveRender (app, sprite, v) {
     }
   }
   function handleArrowLeft () {
+    if (isPause.value) return
     if (sprite.x > 0) {
       sprite.x -= v
     } else {

@@ -1,17 +1,10 @@
-import { watch } from 'vue'
 import { hitTestRectangle } from '../utils'
-import { pauseMode, state } from '../reactivity'
 export class Organization {
   static max = 50
   constructor (app) {
     this.app = app
     this.materialList = []
     this.leadList = []
-    watch(state, () => {
-      if (state.value === 'pause') {
-        this.materialList.forEach(material => material.haltMove())
-      }
-    })
     this.handleTick = () => {
       this.forTesting()
     }
@@ -122,7 +115,10 @@ export class Organization {
     }
     return this
   }
-  handlePause () {
-    pauseMode()
+  haltMove () {
+    this.materialList.forEach(material => material.haltMove())
+  }
+  startMove () {
+    this.materialList.forEach(material => material.startMove())
   }
 }

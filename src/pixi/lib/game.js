@@ -5,8 +5,9 @@ import {
 } from '../utils'
 import { createWhale } from '../myWhale'
 import { Organization } from './container'
-import { factoryFish } from '../npc/fish'
-import { ingMode } from '../reactivity'
+import { factoryFish, factoryFishPause } from '../npc/fish'
+import { isIdle, isPause } from '../reactivity'
+import { watch } from 'vue'
 export async function createPixiApp () {
   const app = new PIXI.Application({
     height: getDocumentHeight(),
@@ -16,7 +17,6 @@ export async function createPixiApp () {
   const whale = await createWhale(app)
   organization
     .addLead(whale)
-    .openTickHitTestRectangle()
   return {
     app,
     organization
@@ -27,6 +27,15 @@ export class Game {
   constructor () {
     this.app = null
     this.organization = null
+    this.startAntPause = event => {
+      if (event.code === 'Space') {
+        if (isIdle.value) {
+          isIdle.value = false
+        } else {
+          isPause.value = !isPause.value
+        }
+      }
+    }
   }
   async init () {
     const {
@@ -35,9 +44,49 @@ export class Game {
     } = await createPixiApp()
     this.app = app
     this.organization = organization
+    
   }
-  handleStart () {
-    ingMode()
-    factoryFish(this.app, this.organization)
+  bindWatchEvent () {
+    this.removeWatchEvent()
+    this.idleWatch = watch(isIdle, () => {
+      if (isIdle.value) {
+        this.gamePause()
+      } else {
+        this.gameIng()
+      }
+    })
+    this.pauseWatch = watch(isPause, () => {
+      if (isPause.value) {
+        this.gamePause()
+      } else {
+        this.gameIng()
+      }
+    })
+  }
+  removeWatchEvent () {
+    if (typeof this.pauseWatch === 'function') {
+      this.pauseWatch()
+    }
+  }
+  bindWindowEvent () {
+    this.removeWindowEvent()
+    window.addEventListener('keyup', this.startAntPause)
+  }
+  removeWindowEvent () {
+    window.removeEventListener('keyup', this.startAntPause)
+  }
+  gameIng () {
+    if (this.organization) {
+      this.organization.startMove()
+      this.organization.openTickHitTestRectangle()
+      factoryFish(this.app, this.organization)
+    }
+  }
+  gamePause () {
+    if (this.organization) {
+      this.organization.haltMove() // 暂停游泳
+      this.organization.closeTickHitTestRectangle() // 关闭检测
+      factoryFishPause() // 关闭生产
+    }
   }
 }

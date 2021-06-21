@@ -2,19 +2,23 @@
   <div class="container">
     <div ref="pixiContainer" id="pixi"></div>
     <div v-if="isIdle" @click="handleStart" class="start-btn">开始</div>
+    <div v-else-if="isPause" @click="handleContinue" class="start-btn">继续</div>
   </div>
 </template>
 
 <script>
 import { ref, onMounted } from 'vue'
 import { getGame } from './pixi'
-import { isIdle } from './pixi/reactivity'
+import { isIdle, isPause, } from './pixi/reactivity'
 export default {
   setup () {
     let game
     const pixiContainer = ref(null)
     function handleStart () {
-      game.handleStart()
+      isIdle.value = false
+    }
+    function handleContinue () {
+      isPause.value = false
     }
     onMounted(async () => {
       game = getGame()
@@ -24,7 +28,9 @@ export default {
     return {
       pixiContainer,
       handleStart,
-      isIdle
+      handleContinue,
+      isIdle,
+      isPause
     }
   }
 }
