@@ -9,14 +9,8 @@ export function factoryFishPause () {
 export function factoryFish (app, organization) {
   factoryFishPause()
   time = setInterval(() => {
-      if (Math.random() > 0.5) {
-        createFish(app, organization)
-        createFish(app, organization)
-        createFish(app, organization)
-      } else {
-        createFish(app, organization)
-      }
-  }, 3000)
+    createFish(app, organization)
+  }, parseInt(Math.random() * 1000))
 }
 export async function createFish (app, organization) {
   const {
