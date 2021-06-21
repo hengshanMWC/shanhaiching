@@ -1,6 +1,6 @@
 import { hitTestRectangle } from '../utils'
 export class Organization {
-  static max = 50
+  static max = 20
   constructor (app) {
     this.app = app
     this.materialList = []
