@@ -14,7 +14,7 @@ export function factoryFish (app, organization) {
       } else {
         createFish(app, organization)
       }
-  }, 3000)
+  }, 2500)
 }
 export async function createFish (app, organization) {
   const {
