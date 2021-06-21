@@ -12,6 +12,7 @@ export async function ranYiYu () {
   const texture = await getTexture('tilapiaFish', require('../../assets/ran-yi-yu.png'))
   return {
     texture,
-    healthValue: 45
+    healthValue: 50,
+    delicious: 1
   }
 }

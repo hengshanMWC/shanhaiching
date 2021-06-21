@@ -7,3 +7,5 @@ export const isInit = ref(true)
 export const isSuccess = ref(false)
 // 非空闲（游戏中）：是否暂停
 export const isPause = ref(false)
+// 游戏时间
+export const gameTime = ref(0)
