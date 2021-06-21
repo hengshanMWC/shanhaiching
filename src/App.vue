@@ -7,27 +7,39 @@
         <div class="game-value">积分：{{gameValue}}</div>
       </div>
     </div>
-    <div v-if="isIdle" @click="handleStart" class="start-btn">开始</div>
-    <div v-else-if="isPause" @click="handleContinue" class="start-btn">继续</div>
+    <div v-if="isIdle || isPause" class="center-box">
+      <p v-if="isPlayed" class="end-text">{{ endText }}</p>
+      <div v-if="isIdle" @click="handleStart" class="start-btn">开始</div>
+      <div v-else-if="isPause" @click="handleContinue" class="start-btn">继续</div>
+    </div>
   </div>
 </template>
 
 <script>
-import { ref, onMounted } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 import { getGame } from './pixi'
-import { isIdle, isPause, gameTime, gameValue } from './pixi/reactivity'
+import {
+    isIdle,
+    isPause,
+    isSuccess,
+    isPlayed,
+    gameTime,
+    gameValue 
+} from './pixi/reactivity'
 export default {
   setup () {
     let game
     const pixiContainer = ref(null)
     function handleStart () {
-      gameTime.value = 0
-      gameValue.value = 0
       isIdle.value = false
     }
     function handleContinue () {
       isPause.value = false
     }
+    const endText = computed(() => isSuccess.value ? 
+      '恭喜你！羽毛成鲲！' 
+      : '游戏结束，鲸落'
+    )
     onMounted(async () => {
       game = getGame()
       await game.init()
@@ -39,8 +51,11 @@ export default {
       handleContinue,
       isIdle,
       isPause,
+      isSuccess,
+      isPlayed,
       gameTime,
-      gameValue
+      gameValue,
+      endText
     }
   }
 }
@@ -60,12 +75,20 @@ html {
 }
 </style>
 <style scoped>
-.start-btn {
-  background: #fff;
+.center-box {
+  text-align: center;
   position: absolute;
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
+}
+.end-text {
+  color: #fff;
+  font-size: 32px;
+  margin-bottom: 20px;
+}
+.start-btn {
+  background: #fff;
   width: 300px;
   height: 80px;
   font-size: 36px;

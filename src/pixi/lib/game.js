@@ -3,10 +3,18 @@ import {
   getDocumentHeight,
   getDocumentWidth,
 } from '../utils'
-import { createWhale } from '../myWhale'
+import { createWhale, getWhale, regression } from '../myWhale'
 import { Organization } from './container'
 import { factoryFish, factoryFishPause } from '../npc/fish'
-import { isIdle, isPause, startGameTime, pauseGameTime, gameTime } from '../reactivity'
+import {
+  isIdle,
+  isPause,
+  isInit,
+  startGameTime,
+  pauseGameTime,
+  gameTime,
+  gameValue
+} from '../reactivity'
 import { watch } from 'vue'
 export async function createPixiApp () {
   const app = new PIXI.Application({
@@ -52,6 +60,10 @@ export class Game {
       if (isIdle.value) {
         this.gamePause()
       } else {
+        if (!isInit.value) {
+          this.gameContinue()
+        }
+        this.start()
         this.gameIng()
         gameTime.value = 0
       }
@@ -92,4 +104,14 @@ export class Game {
       pauseGameTime() // 倒计时
     }
   }
-}
+  gameContinue () {
+    this.organization.empty() // 清空
+    regression()
+    this.organization.addLead(getWhale())
+  }
+  start () {
+    gameTime.value = 0
+    gameValue.value = 0
+    isInit.value = false
+  }
+} 

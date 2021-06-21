@@ -1,4 +1,4 @@
-export const HEALTH_VALUE = 50 // 基础生命值
+import { HEALTH_VALUE } from '../constant/index'
 export class Fish {
   constructor (app, sprite, direction = 'l', healthValue = HEALTH_VALUE, delicious = 1, speed = 1) {
     this.app = app

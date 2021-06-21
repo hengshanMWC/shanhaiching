@@ -1,4 +1,5 @@
 import { getTexture } from '../utils'
+import { HEALTH_VALUE } from '../constant/index'
 export default function createNpc (type) {
   switch (type) {
     case 0:
@@ -20,7 +21,7 @@ export async function ranYiYu () {
   const texture = await getTexture('../../assets/ran-yi-yu.png', require('../../assets/ran-yi-yu.png'))
   return {
     texture,
-    healthValue: 50,
+    healthValue: HEALTH_VALUE,
     delicious: 1
   }
 }

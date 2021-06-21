@@ -1,5 +1,5 @@
 import { hitTestRectangle } from '../utils'
-import { gameValue } from '../reactivity'
+import { gameValue, isSuccess, isIdle } from '../reactivity'
 export class Organization {
   static max = 20
   constructor (app) {
@@ -65,6 +65,12 @@ export class Organization {
     material.destruction()
     return this
   }
+  empty () {
+    this.materialList.forEach(item => this.remove(item))
+    this.materialList.length = 0
+    this.leadList.forEach(item => this.remove(item))
+    this.leadList.length = 0
+  }
   openTickHitTestRectangle () {
     this.app.ticker.add(this.handleTick)
     return this
@@ -91,6 +97,8 @@ export class Organization {
       if (material.collision(lead)) {
         material.eat(lead.delicious)
         this.removeLead(lead)
+        isIdle.value = true
+        isSuccess.value = false
         return true
       } else {
         lead.eat(material.delicious)
