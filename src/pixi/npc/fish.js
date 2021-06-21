@@ -10,7 +10,7 @@ export function factoryFish (app, organization) {
   factoryFishPause()
   time = setInterval(() => {
     createFish(app, organization)
-  }, parseInt(Math.random() * 1000))
+  }, parseInt(Math.random() * 1500))
 }
 export async function createFish (app, organization) {
   const {
@@ -25,5 +25,5 @@ export async function createFish (app, organization) {
   fish.startMove()
 }
 export function createType () {
-  return Math.floor(gameTime.value / 10)
+  return Math.floor(gameTime.value / 30)
 }
