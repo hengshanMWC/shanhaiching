@@ -1,6 +1,12 @@
 <template>
   <div class="container">
     <div ref="pixiContainer" id="pixi"></div>
+    <div class="top-right-box">
+      <div class="game-status">
+        <div class="game-time">{{gameTime}}</div>
+        <div class="game-value">积分：{{gameValue}}</div>
+      </div>
+    </div>
     <div v-if="isIdle" @click="handleStart" class="start-btn">开始</div>
     <div v-else-if="isPause" @click="handleContinue" class="start-btn">继续</div>
   </div>
@@ -9,12 +15,14 @@
 <script>
 import { ref, onMounted } from 'vue'
 import { getGame } from './pixi'
-import { isIdle, isPause, } from './pixi/reactivity'
+import { isIdle, isPause, gameTime, gameValue } from './pixi/reactivity'
 export default {
   setup () {
     let game
     const pixiContainer = ref(null)
     function handleStart () {
+      gameTime.value = 0
+      gameValue.value = 0
       isIdle.value = false
     }
     function handleContinue () {
@@ -30,7 +38,9 @@ export default {
       handleStart,
       handleContinue,
       isIdle,
-      isPause
+      isPause,
+      gameTime,
+      gameValue
     }
   }
 }
@@ -63,5 +73,18 @@ html {
   display: flex;
   align-items: center;
   justify-content: center;
+}
+.top-right-box {
+  color: #fff;
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+.game-status {
+  margin: 15px;
+}
+.game-time,
+.game-value {
+  text-align: center;
 }
 </style>

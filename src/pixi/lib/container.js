@@ -1,4 +1,5 @@
 import { hitTestRectangle } from '../utils'
+import { gameValue } from '../reactivity'
 export class Organization {
   static max = 20
   constructor (app) {
@@ -94,6 +95,7 @@ export class Organization {
       } else {
         lead.eat(material.delicious)
         this.removeMaterial(material)
+        gameValue.value += material.delicious
         return false
       }
     }

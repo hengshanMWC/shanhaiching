@@ -9,3 +9,16 @@ export const isSuccess = ref(false)
 export const isPause = ref(false)
 // 游戏时间
 export const gameTime = ref(0)
+let time
+export function startGameTime () {
+  pauseGameTime()
+  time = setTimeout(() => {
+    gameTime.value += 1
+    startGameTime()
+  }, 1000)
+}
+export function pauseGameTime () {
+  clearTimeout(time)
+}
+// 游戏积分
+export const gameValue = ref(0)

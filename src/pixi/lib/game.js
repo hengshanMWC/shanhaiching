@@ -6,7 +6,7 @@ import {
 import { createWhale } from '../myWhale'
 import { Organization } from './container'
 import { factoryFish, factoryFishPause } from '../npc/fish'
-import { isIdle, isPause } from '../reactivity'
+import { isIdle, isPause, startGameTime, pauseGameTime, gameTime } from '../reactivity'
 import { watch } from 'vue'
 export async function createPixiApp () {
   const app = new PIXI.Application({
@@ -53,6 +53,7 @@ export class Game {
         this.gamePause()
       } else {
         this.gameIng()
+        gameTime.value = 0
       }
     })
     this.pauseWatch = watch(isPause, () => {
@@ -80,6 +81,7 @@ export class Game {
       this.organization.startMove()
       this.organization.openTickHitTestRectangle()
       factoryFish(this.app, this.organization)
+      startGameTime()
     }
   }
   gamePause () {
@@ -87,6 +89,7 @@ export class Game {
       this.organization.haltMove() // 暂停游泳
       this.organization.closeTickHitTestRectangle() // 关闭检测
       factoryFishPause() // 关闭生产
+      pauseGameTime() // 倒计时
     }
   }
 }
