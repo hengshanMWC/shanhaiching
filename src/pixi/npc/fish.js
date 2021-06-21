@@ -1,8 +1,6 @@
 import * as PIXI from 'pixi.js'
 import { Fish } from '../lib/fish'
-import { TILAPIA_FISH } from '../constant/material'
-import { getTexture } from '../utils'
-import tilapiaFishImage from '../../assets/tilapiaFish .png'
+import createNpc from './type'
 let time
 export function factoryFishPause () {
   clearInterval(time)
@@ -19,9 +17,12 @@ export function factoryFish (app, organization) {
   }, 1000)
 }
 export async function createFish (app, organization) {
-  const texture = await getTexture('tilapiaFish', tilapiaFishImage)
+  const {
+    texture, 
+    healthValue
+  } = await createNpc(0)
   const sprite = new PIXI.Sprite(texture)
-  const fish = new Fish(app, sprite, TILAPIA_FISH, Math.random() > 0.5 ? 'r' : 'l')
+  const fish = new Fish(app, sprite, Math.random() > 0.5 ? 'r' : 'l', healthValue)
   fish.positionOut()
   organization
     .addMaterial(fish)

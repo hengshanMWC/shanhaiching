@@ -1,9 +1,12 @@
 export const HEALTH_VALUE = 50 // 基础生命值
 export class Fish {
-  constructor (app, sprite, size, direction = 'l', healthValue = HEALTH_VALUE, speed = 1) {
+  constructor (app, sprite, direction = 'l', healthValue = HEALTH_VALUE, speed = 1) {
     this.app = app
     this.sprite = sprite
-    this.size = size // 图片尺寸
+    this.size = {
+      width: sprite.width,
+      height: sprite.height,
+    } // 图片尺寸
     this.healthValue = healthValue // 生命值
     this._healthValue
     this.speed = speed
