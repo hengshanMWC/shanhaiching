@@ -1,5 +1,5 @@
 import { HEALTH_VALUE } from '../constant/index'
-export class Fish {
+export class NPCFish {
   constructor (app, sprite, direction = 'l', healthValue = HEALTH_VALUE, delicious = 1, speed = 1) {
     this.app = app
     this.sprite = sprite

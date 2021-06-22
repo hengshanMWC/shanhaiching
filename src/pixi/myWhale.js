@@ -2,7 +2,7 @@ import * as PIXI from 'pixi.js'
 import whaleImage from '../assets/whale.png'
 import { loaderPromise } from './utils'
 import { arrowMoveRender } from './move'
-import { Fish } from './lib/fish'
+import { NPCFish } from './lib/NPCFish'
 import { HEALTH_VALUE } from './constant/index'
 let whale = null
 export function regression () {
@@ -16,7 +16,7 @@ export async function createWhale (app) {
   const whaleSprite = new PIXI.Sprite(
     PIXI.Loader.shared.resources.whale.texture
   )
-  whale = new Fish(app, whaleSprite)
+  whale = new NPCFish(app, whaleSprite)
   arrowMoveRender(app, whaleSprite, 8, 12)
   return whale
 }

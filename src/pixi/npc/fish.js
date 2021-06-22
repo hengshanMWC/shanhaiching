@@ -1,5 +1,5 @@
 import * as PIXI from 'pixi.js'
-import { Fish } from '../lib/fish'
+import { NPCFish } from '../lib/NPCFish'
 import { gameTime } from '../reactivity'
 import createNpc from './type'
 let time
@@ -18,7 +18,7 @@ export async function createFish (app, organization) {
     healthValue
   } = await createNpc(createType())
   const sprite = new PIXI.Sprite(texture)
-  const fish = new Fish(app, sprite, Math.random() > 0.5 ? 'r' : 'l', healthValue)
+  const fish = new NPCFish(app, sprite, Math.random() > 0.5 ? 'r' : 'l', healthValue)
   fish.positionOut()
   organization
     .addMaterial(fish)
