@@ -17,6 +17,6 @@ export async function createWhale (app) {
     PIXI.Loader.shared.resources.whale.texture
   )
   whale = new Fish(app, whaleSprite)
-  arrowMoveRender(app, whaleSprite, 8)
+  arrowMoveRender(app, whaleSprite, 8, 12)
   return whale
 }
