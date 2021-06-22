@@ -97,8 +97,8 @@ export class Organization {
       if (material.collision(lead)) {
         material.eat(lead.delicious)
         this.removeLead(lead)
-        isIdle.value = true
-        isSuccess.value = false
+        this.gameOver()
+        
         return true
       } else {
         lead.eat(material.delicious)
@@ -130,5 +130,11 @@ export class Organization {
   }
   startMove () {
     this.materialList.forEach(material => material.startMove())
+  }
+  gameOver () {
+    if (!this.leadList.length) {
+      isIdle.value = true
+      isSuccess.value = false
+    }
   }
 }
