@@ -29,4 +29,7 @@ export class Fish {
   eat (delicious) {
     this.healthValue += delicious
   }
+  destruction () {
+    return this
+  }
 }

@@ -3,7 +3,8 @@ import {
   getDocumentHeight,
   getDocumentWidth,
 } from '../utils'
-import { createWhale, getWhale, regression } from '../myWhale'
+import { createWhale, regression } from '../lead/createWhale'
+import { getArrowOperation } from '../lead/operationMove'
 import { Organization } from './container'
 import { factoryFish, factoryFishPause } from '../npc/fish'
 import {
@@ -16,18 +17,19 @@ import {
   gameValue
 } from '../reactivity'
 import { watch } from 'vue'
-export async function createPixiApp () {
+export async function createPixiApp (bindEvent) {
   const app = new PIXI.Application({
     height: getDocumentHeight(),
     width: getDocumentWidth()
   })
   const organization = new Organization(app)
-  const whale = await createWhale(app)
+  const whale = await createWhale(app, bindEvent)
   organization
     .addLead(whale)
   return {
     app,
-    organization
+    organization,
+    whale
   }
 }
 
@@ -48,11 +50,12 @@ export class Game {
   async init () {
     const {
       app,
-      organization
-    } = await createPixiApp()
+      organization,
+      whale,
+    } = await createPixiApp(getArrowOperation)
     this.app = app
     this.organization = organization
-    
+    this.whales = [whale]
   }
   bindWatchEvent () {
     this.removeWatchEvent()
@@ -106,8 +109,8 @@ export class Game {
   }
   gameContinue () {
     this.organization.empty() // 清空
-    regression()
-    this.organization.addLead(getWhale())
+    regression(this.whales[0])
+    this.organization.addLead(this.whales)
   }
   start () {
     gameTime.value = 0
