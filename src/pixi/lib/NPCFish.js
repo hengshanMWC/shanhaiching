@@ -9,9 +9,6 @@ export class NPCFish extends Fish {
       this.sprite.x += this.direction === 'l' ? speed : -speed
     }
   }
-  getSprite () {
-    return this.sprite
-  }
   positionOut () {
     this.sprite.x = this.direction === 'l' 
       ? -this.sprite.width

@@ -20,6 +20,9 @@ export class Fish {
     this.sprite.width = value
     this.sprite.height = this.size.height * this.healthValue / this.size.width
   }
+  getSprite () {
+    return this.sprite
+  }
   collision (fish) {
     return this.healthValue > fish.healthValue
   }
