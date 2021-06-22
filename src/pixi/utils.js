@@ -10,7 +10,7 @@ export function loaderPromise (...arr) {
 }
 export async function getTexture (key, img) {
   const resources = PIXI.Loader.shared.resources
-  if (!resources[key]) {
+  if (!resources[key]?.texture) {
     await loaderPromise(key, img)
   }
   return resources[key].texture

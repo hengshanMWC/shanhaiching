@@ -23,12 +23,8 @@ export class Organization {
     return Organization.max <= this.Number
   }
   addLead (...lead) {
-    if (this.isFull) return
-    const leads = lead.slice(0, Organization.max - this.Number)
-    this.leadList.push(...leads)
-    leads.forEach(item => {
-      this.add(item)
-    })
+    this.leadList.push(...lead)
+    lead.forEach(item => this.add(item))
     return this
   }
   removeLead (lead) {
@@ -43,9 +39,7 @@ export class Organization {
     if (this.isFull) return
     const materials = material.slice(0, Organization.max - this.Number)
     this.materialList.push(...materials)
-    materials.forEach(item => {
-      this.add(item)
-    })
+    materials.forEach(item => this.add(item))
     return this
   }
   removeMaterial (material) {

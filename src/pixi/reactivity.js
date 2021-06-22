@@ -25,3 +25,5 @@ export function pauseGameTime () {
 }
 // 游戏积分
 export const gameValue = ref(0)
+// 玩家数量
+export const gamePlayerNumber = ref(2)

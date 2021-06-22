@@ -4,7 +4,7 @@ import {
   getDocumentWidth,
 } from '../utils'
 import { createWhale, regression } from '../lead/createWhale'
-import { getArrowOperation } from '../lead/operationMove'
+import { getArrowOperation, getEnglishOperation } from '../lead/operationMove'
 import { Organization } from './container'
 import { factoryFish, factoryFishPause } from '../npc/fish'
 import {
@@ -14,22 +14,21 @@ import {
   startGameTime,
   pauseGameTime,
   gameTime,
-  gameValue
+  gameValue,
+  gamePlayerNumber
 } from '../reactivity'
 import { watch } from 'vue'
-export async function createPixiApp (bindEvent) {
+import whaleImage from '../../assets/whale.png'
+import { getTexture } from '../utils'
+export function createPixiApp () {
   const app = new PIXI.Application({
     height: getDocumentHeight(),
     width: getDocumentWidth()
   })
   const organization = new Organization(app)
-  const whale = await createWhale(app, bindEvent)
-  organization
-    .addLead(whale)
   return {
     app,
-    organization,
-    whale
+    organization
   }
 }
 
@@ -51,11 +50,20 @@ export class Game {
     const {
       app,
       organization,
-      whale,
-    } = await createPixiApp(getArrowOperation)
+    } = createPixiApp()
     this.app = app
     this.organization = organization
-    this.whales = [whale]
+    await this.createWhales()
+    organization
+      .addLead(...this.whales)
+    
+  }
+  async createWhales () {
+    await getTexture('whale', whaleImage)
+    const seat = [ getArrowOperation, getEnglishOperation ]
+    this.whales = seat
+      .splice(0, gamePlayerNumber.value)
+      .map(bindEvent => createWhale(this.app, bindEvent))
   }
   bindWatchEvent () {
     this.removeWatchEvent()
@@ -109,7 +117,9 @@ export class Game {
   }
   gameContinue () {
     this.organization.empty() // 清空
-    regression(this.whales[0])
+    this.whales.forEach(whale => {
+      regression(whale)
+    })
     this.organization.addLead(this.whales)
   }
   start () {
