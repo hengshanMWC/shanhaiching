@@ -62,7 +62,7 @@ export class Game {
     this.removeWatchEvent()
     this.idleWatch = watch(isIdle, () => {
       if (isIdle.value) {
-        this.gameCycle.destruction()
+        this.gameCycle.end()
       } else {
         this.gameCycle.start()
       }

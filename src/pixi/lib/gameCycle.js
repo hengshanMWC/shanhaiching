@@ -11,6 +11,7 @@ export class GameCycle {
   constructor (game) {
     this.game = game
   }
+  // 开始
   start () {
     if (!isInit.value) {
       this.clean()
@@ -18,13 +19,16 @@ export class GameCycle {
     this.regression()
     this.handleIng()
   }
+  // 暂停
   pause () {
     this.handlePause()
   }
+  // 继续
   continue () {
     this.handleIng()
   }
-  destruction () {
+  // 结束
+  end () {
     this.handlePause()
   }
   handlePause () {
