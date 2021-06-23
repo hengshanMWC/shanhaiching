@@ -42,17 +42,29 @@ export class KeyboardMove {
   constructor (value, keydown, keyup) {
     this.keydown = keydown
     this.keyup = keyup
+    this.time
     this.handleKeydown = event => {
-      if (event.key === value) {
-        this.keydown(event)
+      if (!this.time && event.key === value) {
+        this.step()
       }
     }
     this.handleKeyup = event => {
       if (event.key === value) {
         this.keyup(event)
+        this.cease()
       }
     }
     this.addEvent()
+  }
+  step () {
+    this.time = requestAnimationFrame(() => {
+      this.keydown()
+      this.step()
+    })
+  }
+  cease () {
+    cancelAnimationFrame(this.time)
+    this.time = void(0)
   }
   addEvent () {
     this.handleKeydown && window.addEventListener('keydown', this.handleKeydown, false)
