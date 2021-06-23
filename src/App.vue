@@ -9,7 +9,7 @@
     </div>
     <div v-if="isIdle || isPause" class="center-box">
       <p v-if="isPlayed" class="end-text">{{ endText }}</p>
-      <div v-if="isIdle" @click="handleStart" class="start-btn">开始</div>
+      <div v-if="isIdle" @click="handleStart" class="start-btn">山海经</div>
       <div v-else-if="isPause" @click="handleContinue" class="start-btn">继续</div>
     </div>
   </div>

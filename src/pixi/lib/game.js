@@ -120,7 +120,7 @@ export class Game {
     this.whales.forEach(whale => {
       regression(whale)
     })
-    this.organization.addLead(this.whales)
+    this.organization.addLead(...this.whales)
   }
   start () {
     gameTime.value = 0

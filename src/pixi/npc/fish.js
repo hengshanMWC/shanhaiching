@@ -1,6 +1,7 @@
 import * as PIXI from 'pixi.js'
 import { NPCFish } from '../lib/NPCFish'
 import { gameTime } from '../reactivity'
+import { FACTORY_NPC_ITEM } from '../constant'
 import createNpc from './type'
 let time
 export function factoryFishPause () {
@@ -10,13 +11,15 @@ export function factoryFish (app, organization) {
   factoryFishPause()
   time = setInterval(() => {
     createFish(app, organization)
-  }, parseInt(Math.random() * 1500))
+  }, parseInt(Math.random() * FACTORY_NPC_ITEM))
 }
 export async function createFish (app, organization) {
+  const npc = await createNpc(createType())
+  if (!npc) return
   const {
     texture, 
     healthValue
-  } = await createNpc(createType())
+  } = npc
   const sprite = new PIXI.Sprite(texture)
   const fish = new NPCFish(app, sprite, healthValue, Math.random() > 0.5 ? 'r' : 'l')
   fish.positionOut()
@@ -25,5 +28,5 @@ export async function createFish (app, organization) {
   fish.startMove()
 }
 export function createType () {
-  return Math.floor(gameTime.value / 30)
+  return Math.floor(gameTime.value / 25)
 }
