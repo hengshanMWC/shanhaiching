@@ -12,7 +12,7 @@ import {
   gamePlayerNumber
 } from '../reactivity'
 import { watch } from 'vue'
-import whaleImage from '../../assets/whale.png'
+import whaleImage from '../../assets/images/whale.png'
 import { getTexture } from '../utils'
 import { GameCycle } from './gameCycle'
 import { loaderImg } from '../npc/loader'
