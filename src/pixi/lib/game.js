@@ -63,15 +63,15 @@ export class Game {
   }
   bindWatchEvent () {
     this.removeWatchEvent()
-    this.idleWatch = watch(isIdle, () => {
-      if (isIdle.value) {
+    this.idleWatch = watch(isIdle, value => {
+      if (value) {
         this.gameCycle.end()
       } else {
         this.gameCycle.start()
       }
     })
-    this.pauseWatch = watch(isPause, () => {
-      if (isPause.value) {
+    this.pauseWatch = watch(isPause, value => {
+      if (value) {
         this.gameCycle.pause()
       } else {
         this.gameCycle.continue()
