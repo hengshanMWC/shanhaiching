@@ -1,6 +1,5 @@
-import { Keyboard } from './keyboard'
 import { isPause } from '../reactivity' 
-export class KeyboardMove {
+export class moveCombination {
   constructor (app, sprite, v0, v1) {
     this.app = app
     this.sprite = sprite
@@ -11,14 +10,14 @@ export class KeyboardMove {
   }
   bind (events) {
     Object.keys(events).forEach(key => {
-      new Keyboard(key, event => {
+      new KeyboardMove(key, () => {
         if (isPause.value) return
         this.direction = key
         this.quicken()
-        typeof events[key].down === 'function' && events[key].down(this.v, event)
-      }, event => {
+        typeof events[key].down === 'function' && events[key].down(this.v)
+      }, () => {
         this.recovery()
-        typeof events[key].up === 'function' && events[key].up(event)
+        typeof events[key].up === 'function' && events[key].up()
       })
     })
   }
@@ -37,5 +36,30 @@ export class KeyboardMove {
     this.timeNow = 0
     this.v = this.v0
     this.direction = ''
+  }
+}
+export class KeyboardMove {
+  constructor (value, keydown, keyup) {
+    this.keydown = keydown
+    this.keyup = keyup
+    this.handleKeydown = event => {
+      if (event.key === value) {
+        this.keydown(event)
+      }
+    }
+    this.handleKeyup = event => {
+      if (event.key === value) {
+        this.keyup(event)
+      }
+    }
+    this.addEvent()
+  }
+  addEvent () {
+    this.handleKeydown && window.addEventListener('keydown', this.handleKeydown, false)
+    this.handleKeyup && window.addEventListener('keyup', this.handleKeyup, false)
+  }
+  removeEvent () {
+    this.handleKeydown && window.removeEventListener('keydown', this.handleKeydown)
+    this.handleKeyup && window.removeEventListener('keyup', this.handleKeyup)
   }
 }
