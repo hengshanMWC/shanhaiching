@@ -15,6 +15,8 @@ import { watch } from 'vue'
 import whaleImage from '../../assets/whale.png'
 import { getTexture } from '../utils'
 import { GameCycle } from './gameCycle'
+import { loaderImg } from '../npc/loader'
+
 export function createPixiApp () {
   const app = new PIXI.Application({
     height: getDocumentHeight(),
@@ -50,6 +52,7 @@ export class Game {
     await this.createWhales()
     this.organization
       .addPC(...this.whales)
+    loaderImg()
   }
   async createWhales () {
     await getTexture('whale', whaleImage)

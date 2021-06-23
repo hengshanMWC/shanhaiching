@@ -13,8 +13,8 @@ export function factoryFish (app, organization) {
     createFish(app, organization)
   }, parseInt(Math.random() * FACTORY_NPC_ITEM))
 }
-export async function createFish (app, organization) {
-  const npc = await createNpc(createType())
+export function createFish (app, organization) {
+  const npc = createNpc(createType())
   if (!npc) return
   const {
     texture, 
