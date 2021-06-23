@@ -1,6 +1,6 @@
 import { Fish } from './fish'
 import { moveCombination } from './keyboardMove'
-export class LeadFish extends Fish {
+export class PlayerCharacter extends Fish {
   constructor (app, sprite, healthValue, delicious) {
     super(app, sprite, healthValue, delicious)
   }

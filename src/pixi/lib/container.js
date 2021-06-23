@@ -5,7 +5,7 @@ export class Organization {
   constructor (app) {
     this.app = app
     this.materialList = []
-    this.leadList = []
+    this.pcList = []
     this.handleTick = () => {
       this.forTesting()
     }
@@ -17,21 +17,21 @@ export class Organization {
     return this.app.renderer.height
   }
   get Number () {
-    return this.materialList.length + this.leadList.length
+    return this.materialList.length + this.pcList.length
   }
   get isFull () {
     return Organization.max <= this.Number
   }
-  addLead (...lead) {
-    this.leadList.push(...lead)
-    lead.forEach(item => this.add(item))
+  addPC (...pc) {
+    this.pcList.push(...pc)
+    pc.forEach(item => this.add(item))
     return this
   }
-  removeLead (lead) {
-    const index = this.leadList.findIndex(item => lead === item)
+  removePC (pc) {
+    const index = this.pcList.findIndex(item => pc === item)
     if (index !== -1) {
-      this.leadList.splice(index, 1)
-      this.remove(lead)
+      this.pcList.splice(index, 1)
+      this.remove(pc)
     }
     return this
   }
@@ -62,8 +62,8 @@ export class Organization {
   empty () {
     this.materialList.forEach(item => this.remove(item))
     this.materialList.length = 0
-    this.leadList.forEach(item => this.remove(item))
-    this.leadList.length = 0
+    this.pcList.forEach(item => this.remove(item))
+    this.pcList.length = 0
   }
   openTickHitTestRectangle () {
     this.app.ticker.add(this.handleTick)
@@ -74,28 +74,28 @@ export class Organization {
     return this
   }
   forTesting () {
-    let material, lead
-    for (let i = 0; i < this.leadList.length; i++) {
-      lead = this.leadList[i]
+    let material, pc
+    for (let i = 0; i < this.pcList.length; i++) {
+      pc = this.pcList[i]
       for (let j = 0; j < this.materialList.length; j++) {
         material = this.materialList[j]
-        if (this.hit(material, lead)) return
+        if (this.hit(material, pc)) return
         this.out(material)
       }
     }
   }
   // 检测碰撞
-  hit (material, lead) {
-    if (hitTestRectangle(lead.getSprite(), material.getSprite())) {
+  hit (material, pc) {
+    if (hitTestRectangle(pc.getSprite(), material.getSprite())) {
       // 物料是否比主角大
-      if (material.collision(lead)) {
-        material.eat(lead.delicious)
-        this.removeLead(lead)
+      if (material.collision(pc)) {
+        material.eat(pc.delicious)
+        this.removePC(pc)
         this.gameOver()
         
         return true
       } else {
-        lead.eat(material.delicious)
+        pc.eat(material.delicious)
         this.removeMaterial(material)
         gameValue.value += material.delicious
         return false
@@ -126,7 +126,7 @@ export class Organization {
     this.materialList.forEach(material => material.startMove())
   }
   gameOver () {
-    if (!this.leadList.length) {
+    if (!this.pcList.length) {
       isIdle.value = true
       isSuccess.value = false
     }

@@ -21,7 +21,7 @@ const types = [
       delicious: 1
     }
   },
-  蛊雕
+  // 蛊雕
   async function guDiao () {
     const texture = await getTexture('../../assets/gu-diao.png', require('../../assets/gu-diao.png'))
     return {

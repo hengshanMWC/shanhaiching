@@ -3,8 +3,8 @@ import {
   getDocumentHeight,
   getDocumentWidth,
 } from '../utils'
-import { createWhale, regression } from '../lead/createWhale'
-import { getArrowOperation, getEnglishOperation } from '../lead/operationMove'
+import { createWhale, regression } from '../pc/createWhale'
+import { getArrowOperation, getEnglishOperation } from '../pc/operationMove'
 import { Organization } from './container'
 import { factoryFish, factoryFishPause } from '../npc/fish'
 import {
@@ -55,7 +55,7 @@ export class Game {
     this.organization = organization
     await this.createWhales()
     organization
-      .addLead(...this.whales)
+      .addPC(...this.whales)
     
   }
   async createWhales () {
@@ -120,7 +120,7 @@ export class Game {
     this.whales.forEach(whale => {
       regression(whale)
     })
-    this.organization.addLead(...this.whales)
+    this.organization.addPC(...this.whales)
   }
   start () {
     gameTime.value = 0
