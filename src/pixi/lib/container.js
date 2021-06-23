@@ -1,7 +1,7 @@
 import { hitTestRectangle } from '../utils'
 import { gameValue, isSuccess, isIdle } from '../reactivity'
 export class Organization {
-  static max = 20
+  static npcMax = 20
   constructor (app) {
     this.app = app
     this.materialList = []
@@ -20,7 +20,7 @@ export class Organization {
     return this.materialList.length + this.pcList.length
   }
   get isFull () {
-    return Organization.max <= this.Number
+    return Organization.npcMax <= this.Number
   }
   addPC (...pc) {
     this.pcList.push(...pc)
@@ -37,7 +37,7 @@ export class Organization {
   }
   addMaterial (...material) {
     if (this.isFull) return
-    const materials = material.slice(0, Organization.max - this.Number)
+    const materials = material.slice(0, Organization.npcMax - this.Number)
     this.materialList.push(...materials)
     materials.forEach(item => this.add(item))
     return this
