@@ -39,7 +39,7 @@ export default {
       isPause.value = false
     }
     const endText = computed(() => isSuccess.value ? 
-      '恭喜你！羽毛成鲲！' 
+      '恭喜你！羽化成鲲！' 
       : '游戏结束，鲸落'
     )
     onMounted(async () => {
