@@ -19,6 +19,7 @@
 import { ref, computed, onMounted } from 'vue'
 import { getGame } from './pixi'
 import {
+    isInit,
     isIdle,
     isPause,
     isSuccess,
@@ -32,6 +33,7 @@ export default {
     const pixiContainer = ref(null)
     function handleStart () {
       isIdle.value = false
+      isInit.value = false
     }
     function handleContinue () {
       isPause.value = false

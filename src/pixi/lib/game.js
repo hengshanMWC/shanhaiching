@@ -3,23 +3,18 @@ import {
   getDocumentHeight,
   getDocumentWidth,
 } from '../utils'
-import { createWhale, regression } from '../pc/createWhale'
+import { createWhale } from '../pc/createWhale'
 import { getArrowOperation, getEnglishOperation } from '../pc/operationMove'
 import { Organization } from './container'
-import { factoryFish, factoryFishPause } from '../npc/fish'
 import {
   isIdle,
   isPause,
-  isInit,
-  startGameTime,
-  pauseGameTime,
-  gameTime,
-  gameValue,
   gamePlayerNumber
 } from '../reactivity'
 import { watch } from 'vue'
 import whaleImage from '../../assets/whale.png'
 import { getTexture } from '../utils'
+import { GameCycle } from './gameCycle'
 export function createPixiApp () {
   const app = new PIXI.Application({
     height: getDocumentHeight(),
@@ -34,8 +29,13 @@ export function createPixiApp () {
 
 export class Game {
   constructor () {
-    this.app = null
-    this.organization = null
+    const {
+      app,
+      organization,
+    } = createPixiApp()
+    this.app = app
+    this.organization = organization
+    this.gameCycle = new GameCycle(this)
     this.startAntPause = event => {
       if (event.code === 'Space') {
         if (isIdle.value) {
@@ -47,16 +47,9 @@ export class Game {
     }
   }
   async init () {
-    const {
-      app,
-      organization,
-    } = createPixiApp()
-    this.app = app
-    this.organization = organization
     await this.createWhales()
-    organization
+    this.organization
       .addPC(...this.whales)
-    
   }
   async createWhales () {
     await getTexture('whale', whaleImage)
@@ -69,21 +62,16 @@ export class Game {
     this.removeWatchEvent()
     this.idleWatch = watch(isIdle, () => {
       if (isIdle.value) {
-        this.gamePause()
+        this.gameCycle.destruction()
       } else {
-        if (!isInit.value) {
-          this.gameContinue()
-        }
-        this.start()
-        this.gameIng()
-        gameTime.value = 0
+        this.gameCycle.start()
       }
     })
     this.pauseWatch = watch(isPause, () => {
       if (isPause.value) {
-        this.gamePause()
+        this.gameCycle.pause()
       } else {
-        this.gameIng()
+        this.gameCycle.continue()
       }
     })
   }
@@ -98,33 +86,5 @@ export class Game {
   }
   removeWindowEvent () {
     window.removeEventListener('keyup', this.startAntPause)
-  }
-  gameIng () {
-    if (this.organization) {
-      this.organization.startMove()
-      this.organization.openTickHitTestRectangle()
-      factoryFish(this.app, this.organization)
-      startGameTime()
-    }
-  }
-  gamePause () {
-    if (this.organization) {
-      this.organization.haltMove() // 暂停游泳
-      this.organization.closeTickHitTestRectangle() // 关闭检测
-      factoryFishPause() // 关闭生产
-      pauseGameTime() // 倒计时
-    }
-  }
-  gameContinue () {
-    this.organization.empty() // 清空
-    this.whales.forEach(whale => {
-      regression(whale)
-    })
-    this.organization.addPC(...this.whales)
-  }
-  start () {
-    gameTime.value = 0
-    gameValue.value = 0
-    isInit.value = false
   }
 } 
