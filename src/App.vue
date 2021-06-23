@@ -6,6 +6,12 @@
         <div class="game-time">{{gameTime}}</div>
         <div class="game-value">积分：{{gameValue}}</div>
       </div>
+      <audio ref="bgm">
+        <source src="./assets/audio/bgm.mp3" type="audio/mpeg" loop autoplay>
+      </audio>
+      <i v-if="isPlay" @click="isPlay = false" class="iconfont icon-bofangyinle"></i>
+      <i v-else @click="isPlay = true" class="iconfont icon-guanbiyinle"></i>
+      <i class="iconfont icon-a-shezhi"></i>
     </div>
     <div v-if="isIdle || isPause" class="center-box">
       <p v-if="isPlayed" class="end-text">{{ endText }}</p>
@@ -16,7 +22,7 @@
 </template>
 
 <script>
-import { ref, computed, onMounted } from 'vue'
+import { ref, computed, onMounted, watch } from 'vue'
 import { getGame } from './pixi'
 import {
     isInit,
@@ -25,10 +31,19 @@ import {
     isSuccess,
     isPlayed,
     gameTime,
-    gameValue 
+    gameValue,
+    isPlay
 } from './pixi/reactivity'
 export default {
   setup () {
+    const bgm = ref(null)
+    watch(isPlay, value => {
+      if (value) {
+        bgm.value.play()
+      } else {
+        bgm.value.pause()
+      }
+    })
     let game
     const pixiContainer = ref(null)
     function handleStart () {
@@ -57,7 +72,9 @@ export default {
       isPlayed,
       gameTime,
       gameValue,
-      endText
+      endText,
+      isPlay,
+      bgm
     }
   }
 }
@@ -100,13 +117,19 @@ html {
   justify-content: center;
 }
 .top-right-box {
+  display: flex;
+  align-items: center;
   color: #fff;
   position: absolute;
-  top: 0;
+  top: 15px;
   right: 0;
 }
-.game-status {
-  margin: 15px;
+.top-right-box .iconfont {
+  font-size: 24px;
+  cursor: pointer;
+}
+.top-right-box > *{
+  margin-right: 15px;
 }
 .game-time,
 .game-value {

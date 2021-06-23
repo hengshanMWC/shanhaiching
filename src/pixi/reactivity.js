@@ -27,3 +27,5 @@ export function pauseGameTime () {
 export const gameValue = ref(0)
 // 玩家数量
 export const gamePlayerNumber = ref(1)
+// 播放音乐
+export const isPlay = ref(false)

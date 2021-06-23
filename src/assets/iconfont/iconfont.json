@@ -6,6 +6,20 @@
   "description": "游戏",
   "glyphs": [
     {
+      "icon_id": "22429769",
+      "name": "关闭音乐",
+      "font_class": "guanbiyinle",
+      "unicode": "e616",
+      "unicode_decimal": 58902
+    },
+    {
+      "icon_id": "22429770",
+      "name": "播放音乐",
+      "font_class": "bofangyinle",
+      "unicode": "e617",
+      "unicode_decimal": 58903
+    },
+    {
       "icon_id": "22429763",
       "name": "二人",
       "font_class": "erren",
