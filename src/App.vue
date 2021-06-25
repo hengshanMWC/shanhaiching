@@ -21,7 +21,7 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import { ref, computed, onMounted, watch } from 'vue'
 import { getGame } from './pixi'
 import {

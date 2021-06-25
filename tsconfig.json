@@ -1,0 +1,12 @@
+{
+  "compilerOptions": {
+    "declaration": true,
+    "declarationDir": "types",
+    "lib": [
+      "ES6",
+      "DOM"
+    ],
+    "noUnusedLocals": true, // 若有未使用的局部变量则抛错。
+    "noUnusedParameters": true, // 	若有未使用的参数则抛错
+  }
+}
