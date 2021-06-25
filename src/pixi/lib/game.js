@@ -8,6 +8,7 @@ import { getArrowOperation, getEnglishOperation } from '../pc/operationMove'
 import { Organization } from './container'
 import {
   isIdle,
+  isInit,
   isPause,
   gamePlayerNumber
 } from '../reactivity'
@@ -17,31 +18,19 @@ import { getTexture } from '../utils'
 import { GameCycle } from './gameCycle'
 import { loaderImg } from '../npc/loader'
 
-export function createPixiApp () {
-  const app = new PIXI.Application({
-    height: getDocumentHeight(),
-    width: getDocumentWidth()
-  })
-  const organization = new Organization(app)
-  return {
-    app,
-    organization
-  }
-}
-
 export class Game {
   constructor () {
-    const {
-      app,
-      organization,
-    } = createPixiApp()
-    this.app = app
-    this.organization = organization
+    this.app = new PIXI.Application({
+      height: getDocumentHeight(),
+      width: getDocumentWidth()
+    })
+    this.organization  = new Organization(this)
     this.gameCycle = new GameCycle(this)
     this.startAntPause = event => {
       if (event.code === 'Space') {
         if (isIdle.value) {
           isIdle.value = false
+          isInit.value = false
         } else {
           isPause.value = !isPause.value
         }

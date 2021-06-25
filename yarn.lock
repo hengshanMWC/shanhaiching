@@ -4341,6 +4341,11 @@ flush-write-stream@^1.0.0:
     inherits "^2.0.3"
     readable-stream "^2.3.6"
 
+focus-flow@^1.2.14:
+  version "1.2.14"
+  resolved "https://registry.yarnpkg.com/focus-flow/-/focus-flow-1.2.14.tgz#8d58756dd006749f68b748f562304bc8724ecefe"
+  integrity sha512-qrDFzsirc0D2pjyxTW/hiUdz8+OQ5BeGX/UBRKiuqSXz0FhbcQ268ymHH6/MORkUD8/9b9Cb7z24dLn0lmqLkg==
+
 follow-redirects@^1.0.0:
   version "1.14.1"
   resolved "https://registry.yarnpkg.com/follow-redirects/-/follow-redirects-1.14.1.tgz#d9114ded0a1cfdd334e164e6662ad02bfd91ff43"

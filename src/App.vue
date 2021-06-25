@@ -31,11 +31,11 @@ import {
     isSuccess,
     isPlayed,
     gameTime,
-    gameValue,
-    isPlay
+    gameValue
 } from './pixi/reactivity'
 export default {
   setup () {
+    const isPlay = ref(false)
     const bgm = ref(null)
     watch(isPlay, value => {
       if (value) {

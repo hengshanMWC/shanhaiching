@@ -1,14 +1,17 @@
 import { hitTestRectangle } from '../utils'
-import { gameValue, isSuccess, isIdle } from '../reactivity'
+import { gameValue } from '../reactivity'
 export class Organization {
   static npcMax = 20
-  constructor (app) {
-    this.app = app
+  constructor (game) {
+    this.game = game
     this.materialList = []
     this.pcList = []
     this.handleTick = () => {
       this.forTesting()
     }
+  }
+  get app () {
+    return this.game.app
   }
   get width () {
     return this.app.renderer.width
@@ -127,8 +130,7 @@ export class Organization {
   }
   gameOver () {
     if (!this.pcList.length) {
-      isIdle.value = true
-      isSuccess.value = false
+      this.game.gameCycle.fail()
     }
   }
 }
