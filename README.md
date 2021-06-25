@@ -1,4 +1,4 @@
-# demo
+# shanhaiching-ts
 
 ## Project setup
 ```
