@@ -25,9 +25,10 @@ export class GameCycle {
     if (!isInit.value) {
       this.clean()
     }
-    this.createTaskList()
-      .taskList
-        .createTaskPromise()
+    this.taskList = createTaskList(this.game.app, this.game.organization)
+    this.taskList
+      .createTaskList()
+      .createTaskPromise()
     this.regression()
     this.handleIng()
   }

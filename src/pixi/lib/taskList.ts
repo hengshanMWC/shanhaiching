@@ -4,11 +4,14 @@ import { Task } from './task'
 export class TaskList extends Task {
   public index: number = 0
   public tasks
-  public taskList: Array<Promise<unknown>>
+  public taskList: Array<Promise<unknown>> = []
   constructor (tasks: Array<Task>) {
     super()
     this.tasks = tasks
+  }
+  createTaskList () {
     this.taskList = this.tasks.map(task => this.taskPackage(task))
+    return this
   }
   taskPackage (task: Task) {
     const resolve = task.resolve
