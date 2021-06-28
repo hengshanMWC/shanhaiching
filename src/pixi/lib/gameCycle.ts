@@ -7,19 +7,27 @@ import {
 } from '../reactivity'
 import { regression } from '../pc/createWhale'
 import { createTaskList } from '../task'
+import { Game } from './game'
+import { TaskList } from './taskList'
 export class GameCycle {
-  constructor (game) {
+  public game
+  public taskList: TaskList
+  constructor (game: Game) {
     this.game = game
+    this.taskList = createTaskList(this.game.app, this.game.organization)
+  }
+  createTaskList () {
+    this.taskList = createTaskList(this.game.app, this.game.organization)
+    return this
   }
   // 开始
   start () {
     if (!isInit.value) {
       this.clean()
     }
-    this.taskList = createTaskList(this.game.app, this.game.organization)
-    this.taskList
-      .createTaskList()
-      .createTaskPromise()
+    this.createTaskList()
+      .taskList
+        .createTaskPromise()
     this.regression()
     this.handleIng()
   }

@@ -1,7 +1,8 @@
-export function getArrowOperation (app, sprite) {
+import { Application, Sprite } from 'pixi.js'
+export function getArrowOperation (app: Application, sprite: Sprite) {
   return {
     ArrowUp: {
-      down: v => {
+      down: (v: number) => {
         if (sprite.y > 0) {
           sprite.y -= v
         } else {
@@ -10,7 +11,7 @@ export function getArrowOperation (app, sprite) {
       }
     },
     ArrowRight: {
-      down: v => {
+      down: (v: number) => {
         const maxX = app.renderer.width - sprite.width
         if (maxX > sprite.x) {
           sprite.x += v
@@ -20,7 +21,7 @@ export function getArrowOperation (app, sprite) {
       }
     },
     ArrowDown: {
-      down: v => {
+      down: (v: number) => {
         const maxY = app.renderer.height - sprite.height
         if (maxY > sprite.y) {
           sprite.y += v
@@ -30,7 +31,7 @@ export function getArrowOperation (app, sprite) {
       }
     },
     ArrowLeft: {
-      down: v => {
+      down: (v: number) => {
         if (sprite.x > 0) {
           sprite.x -= v
         } else {
@@ -40,10 +41,10 @@ export function getArrowOperation (app, sprite) {
     }
   }
 }
-export function getEnglishOperation (app, sprite) {
+export function getEnglishOperation (app: Application, sprite: Sprite) {
   return {
     w: {
-      down: v => {
+      down: (v: number) => {
         if (sprite.y > 0) {
           sprite.y -= v
         } else {
@@ -52,7 +53,7 @@ export function getEnglishOperation (app, sprite) {
       }
     },
     d: {
-      down: v => {
+      down: (v: number) => {
         const maxX = app.renderer.width - sprite.width
         if (maxX > sprite.x) {
           sprite.x += v
@@ -62,7 +63,7 @@ export function getEnglishOperation (app, sprite) {
       }
     },
     s: {
-      down: v => {
+      down: (v: number) => {
         const maxY = app.renderer.height - sprite.height
         if (maxY > sprite.y) {
           sprite.y += v
@@ -72,7 +73,7 @@ export function getEnglishOperation (app, sprite) {
       }
     },
     a: {
-      down: v => {
+      down: (v: number) => {
         if (sprite.x > 0) {
           sprite.x -= v
         } else {

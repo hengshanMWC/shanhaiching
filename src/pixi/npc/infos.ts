@@ -1,5 +1,15 @@
 import { HEALTH_VALUE } from '../constant/index'
-const infos = [
+export interface ShanhaichingInfo {
+  name: string,
+  introduce: string,
+  textureName: string,
+  img: string
+}
+export interface ShanhaichingNPCInfo extends ShanhaichingInfo {
+  healthValue: number,
+  delicious: number,
+}
+const infos: Array<ShanhaichingInfo> = [
   {
     name: '冉遗鱼',
     introduce: '冉遗鱼是古代中国神话中的怪鱼。英鞮山，涴水从这座山发源，然后向北流入陵羊泽。水里有很多冉遗鱼，这种鱼长着鱼身、蛇头，还有六只脚，他的眼睛形状如同马的耳朵，吃了这种鱼可以使人不患梦魇症，还可以防御凶灾。出自《山海经》',
@@ -31,7 +41,7 @@ const infos = [
     img: require('../../assets/images/xing-tian.png'),
   },
 ]
-export default infos.map((info, index) => {
+const shanhaichingNPCInfo: Array<ShanhaichingNPCInfo> = infos.map((info, index) => {
   const i = index + 1
   return {
     ...info,
@@ -39,3 +49,4 @@ export default infos.map((info, index) => {
     delicious: i * 0.5,
   }
 })
+export default shanhaichingNPCInfo

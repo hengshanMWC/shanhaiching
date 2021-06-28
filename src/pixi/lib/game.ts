@@ -12,13 +12,21 @@ import {
   isPause,
   gamePlayerNumber
 } from '../reactivity'
-import { watch } from 'vue'
+import { watch, WatchStopHandle } from 'vue'
 import whaleImage from '../../assets/images/whale.png'
 import { getTexture } from '../utils'
 import { GameCycle } from './gameCycle'
+import { PlayerCharacter } from './playerCharacter'
 import { loaderImg } from '../npc/loader'
 
 export class Game {
+  public app
+  public organization
+  public gameCycle
+  public startAntPause: (event: KeyboardEvent) => void
+  public whales: Array<PlayerCharacter> = []
+  public idleWatch: WatchStopHandle = () => {}
+  public pauseWatch: WatchStopHandle = () => {}
   constructor () {
     this.app = new PIXI.Application({
       height: getDocumentHeight(),

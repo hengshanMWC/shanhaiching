@@ -1,7 +1,9 @@
-import { factoryFishTask } from '../lib/factoryFishTask'
+import { Application } from 'pixi.js'
+import { FactoryFishTask } from '../lib/factoryFishTask'
 import { TaskList } from '../lib/taskList'
-export function createTaskList (app, organization) {
+import { Organization } from '../lib/container'
+export function createTaskList (app: Application, organization: Organization) {
   return new TaskList([
-    new factoryFishTask(app, organization)
+    new FactoryFishTask(app, organization)
   ])
 }

@@ -1,18 +1,18 @@
 import { isIdle, isSuccess } from '../reactivity'
-export class TaskList {
-  constructor (tasks) {
-    this._resolve = null
-    this._reject = null
-    this.index = 0
+import { Task } from './task'
+
+export class TaskList extends Task {
+  public index: number = 0
+  public tasks
+  public taskList: Array<Promise<unknown>>
+  constructor (tasks: Array<Task>) {
+    super()
     this.tasks = tasks
-  }
-  createTaskList () {
     this.taskList = this.tasks.map(task => this.taskPackage(task))
-    return this
   }
-  taskPackage (task) {
+  taskPackage (task: Task) {
     const resolve = task.resolve
-    task.resolve = function () {
+    task.resolve = () => {
       this.index++
       resolve()
     }
@@ -28,20 +28,23 @@ export class TaskList {
       .catch(this.reject.bind(this))
       .finally(this.finally.bind(this))
   }
-  next () {
-    if (this.taskList > this.index) {
+  next (): Promise<any> {
+    if (this.taskList.length > this.index) {
       return this.taskList[this.index]
         .then(this.next.bind(this))
     }
+    return Promise.reject()
   }
   start () {
     this.tasks[this.index].start()
+    return this
   }
   pause () {
     this.tasks[this.index].pause()
+    return this
   }
   resolve (){
-    this._resolve()
+    this._resolve(true)
     isSuccess.value = true
   }
   reject () {

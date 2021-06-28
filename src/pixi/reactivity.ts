@@ -12,7 +12,7 @@ export const isPlayed
   = computed(() => !isInit.value && isIdle.value)
 // 游戏时间
 export const gameTime = ref(0)
-let time
+let time: number
 export function startGameTime () {
   pauseGameTime()
   time = setTimeout(() => {

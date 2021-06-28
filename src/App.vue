@@ -28,7 +28,7 @@
 </template>
 
 <script lang="ts">
-import { ref, computed, onMounted, watch } from 'vue'
+import { ref, computed, onMounted, watch, Ref } from 'vue'
 import { getGame } from './pixi'
 import {
   isInit,
@@ -41,17 +41,10 @@ import {
 } from './pixi/reactivity'
 export default {
   setup() {
-    const isPlay = ref(false)
-    const bgm = ref(null)
-    watch(isPlay, (value) => {
-      if (value) {
-        bgm.value.play()
-      } else {
-        bgm.value.pause()
-      }
-    })
     let game
-    const pixiContainer = ref(null)
+    const bgm: Ref<unknown> = ref(null)
+    const pixiContainer: Ref<HTMLElement> = ref(document.documentElement)
+    const isPlay = ref(false)
     function handleStart() {
       isIdle.value = false
       isInit.value = false
@@ -63,6 +56,13 @@ export default {
       isSuccess.value ? '恭喜你！羽化成鲲！' : '游戏结束，鲸落'
     )
     onMounted(async () => {
+      watch(isPlay, (value) => {
+        if (value) {
+          ;(bgm.value as HTMLAudioElement).play()
+        } else {
+          ;(bgm.value as HTMLAudioElement).pause()
+        }
+      })
       game = getGame()
       await game.init()
       pixiContainer.value.appendChild(game.app.view)

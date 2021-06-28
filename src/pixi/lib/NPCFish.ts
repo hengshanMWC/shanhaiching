@@ -1,6 +1,14 @@
+import { Application, Sprite, TickerCallback } from 'pixi.js'
 import { Fish } from './fish'
+export enum Direction {
+  l = 'l',
+  r = 'r'
+}
 export class NPCFish extends Fish {
-  constructor (app, sprite, healthValue, direction = 'l', delicious = 1, speed = 1) {
+  public speed
+  public direction
+  public move: TickerCallback<undefined>
+  constructor (app: Application, sprite: Sprite, healthValue: number, direction: Direction = Direction.l, delicious = 1, speed = 1) {
     super(app, sprite, healthValue, delicious)
     this.speed = speed
     this.direction = direction // r, l

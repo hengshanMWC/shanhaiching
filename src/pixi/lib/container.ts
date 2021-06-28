@@ -1,8 +1,17 @@
+import { TickerCallback }from 'pixi.js'
 import { hitTestRectangle } from '../utils'
 import { gameValue } from '../reactivity'
+import { Game } from './game'
+import { NPCFish } from './NPCFish'
+import { PlayerCharacter } from './playerCharacter'
+import { Fish } from './fish'
 export class Organization {
   static npcMax = 20
-  constructor (game) {
+  public game
+  public materialList: Array<NPCFish>
+  public pcList: Array<PlayerCharacter>
+  public handleTick: TickerCallback<undefined>
+  constructor (game: Game) {
     this.game = game
     this.materialList = []
     this.pcList = []
@@ -25,12 +34,12 @@ export class Organization {
   get isFull () {
     return Organization.npcMax <= this.Number
   }
-  addPC (...pc) {
+  addPC (...pc: Array<PlayerCharacter>) {
     this.pcList.push(...pc)
     pc.forEach(item => this.add(item))
     return this
   }
-  removePC (pc) {
+  removePC (pc: PlayerCharacter) {
     const index = this.pcList.findIndex(item => pc === item)
     if (index !== -1) {
       this.pcList.splice(index, 1)
@@ -38,14 +47,14 @@ export class Organization {
     }
     return this
   }
-  addMaterial (...material) {
+  addMaterial (...material: Array<NPCFish>) {
     if (this.isFull) return
     const materials = material.slice(0, Organization.npcMax - this.Number)
     this.materialList.push(...materials)
     materials.forEach(item => this.add(item))
     return this
   }
-  removeMaterial (material) {
+  removeMaterial (material: NPCFish) {
     const index = this.materialList.findIndex(item => material === item)
     if (index !== -1) {
       this.materialList.splice(index, 1)
@@ -53,11 +62,11 @@ export class Organization {
     }
     return this
   }
-  add (material) {
+  add (material: Fish) {
     this.app.stage.addChild(material.getSprite())
     return this
   }
-  remove (material) {
+  remove (material: Fish) {
     this.app.stage.removeChild(material.getSprite())
     material.destruction()
     return this
@@ -88,7 +97,7 @@ export class Organization {
     }
   }
   // 检测碰撞
-  hit (material, pc) {
+  hit (material: NPCFish, pc: PlayerCharacter) {
     if (hitTestRectangle(pc.getSprite(), material.getSprite())) {
       // 物料是否比主角大
       if (material.collision(pc)) {
@@ -107,7 +116,7 @@ export class Organization {
     return false
   }
   // 检测是否出界
-  out (material) {
+  out (material: NPCFish) {
     if (
       (
         material.direction === 'l' &&

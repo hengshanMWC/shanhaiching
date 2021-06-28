@@ -1,6 +1,15 @@
+import { Application, Sprite } from 'pixi.js'
 import { HEALTH_VALUE } from '../constant/index'
 export class Fish {
-  constructor (app, sprite, healthValue = HEALTH_VALUE, delicious = 1) {
+  public app
+  public sprite
+  public size: {
+    width: number,
+    height: number
+  }
+  public delicious
+  private _healthValue = 0
+  constructor (app: Application, sprite: Sprite, healthValue = HEALTH_VALUE, delicious = 1) {
     this.app = app
     this.sprite = sprite
     // 一定要比healthValue更早赋值，因为healthValue的set用到了size
@@ -9,7 +18,6 @@ export class Fish {
       height: sprite.height,
     } // 图片尺寸
     this.healthValue = healthValue // 生命值
-    this._healthValue
     this.delicious = delicious
   }
   get healthValue () {
@@ -23,11 +31,12 @@ export class Fish {
   getSprite () {
     return this.sprite
   }
-  collision (fish) {
+  collision (fish: Fish) {
     return this.healthValue > fish.healthValue
   }
-  eat (delicious) {
+  eat (delicious: number) {
     this.healthValue += delicious
+    return this
   }
   destruction () {
     return this
