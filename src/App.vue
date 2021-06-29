@@ -9,12 +9,8 @@
       <audio ref="bgm">
         <source src="./assets/audio/bgm.mp3" type="audio/mpeg" loop autoplay />
       </audio>
-      <i
-        v-if="isPlay"
-        @click="isPlay = false"
-        class="iconfont icon-bofangyinle"
-      ></i>
-      <i v-else @click="isPlay = true" class="iconfont icon-guanbiyinle"></i>
+      <i v-if="isPlay" @click="bmgPause" class="iconfont icon-bofangyinle"></i>
+      <i v-else @click="bmgPlay" class="iconfont icon-guanbiyinle"></i>
       <i class="iconfont icon-a-shezhi"></i>
     </div>
     <div v-if="isIdle || isPause" class="center-box">
@@ -28,7 +24,7 @@
 </template>
 
 <script lang="ts">
-import { ref, computed, onMounted, watch, Ref } from 'vue'
+import { ref, computed, onMounted, Ref } from 'vue'
 import { getGame } from './pixi'
 import {
   isInit,
@@ -42,7 +38,7 @@ import {
 export default {
   setup() {
     let game
-    const bgm: Ref<unknown> = ref(null)
+    const bgm: Ref<HTMLElement> = ref(document.documentElement)
     const pixiContainer: Ref<HTMLElement> = ref(document.documentElement)
     const isPlay = ref(false)
     function handleStart() {
@@ -56,17 +52,22 @@ export default {
       isSuccess.value ? '恭喜你！羽化成鲲！' : '游戏结束，鲸落'
     )
     onMounted(async () => {
-      watch(isPlay, value => {
-        if (value) {
-          ;(bgm.value as HTMLAudioElement).play()
-        } else {
-          ;(bgm.value as HTMLAudioElement).pause()
-        }
+      bgm.value.addEventListener('play', () => {
+        isPlay.value = true
+      })
+      bgm.value.addEventListener('pause', () => {
+        isPlay.value = false
       })
       game = getGame()
       await game.init()
       pixiContainer.value.appendChild(game.app.view)
     })
+    function bmgPlay() {
+      ;(bgm.value as HTMLAudioElement).play()
+    }
+    function bmgPause() {
+      ;(bgm.value as HTMLAudioElement).pause()
+    }
     return {
       pixiContainer,
       handleStart,
@@ -80,6 +81,8 @@ export default {
       endText,
       isPlay,
       bgm,
+      bmgPlay,
+      bmgPause,
     }
   },
 }
