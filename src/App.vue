@@ -56,7 +56,7 @@ export default {
       isSuccess.value ? '恭喜你！羽化成鲲！' : '游戏结束，鲸落'
     )
     onMounted(async () => {
-      watch(isPlay, (value) => {
+      watch(isPlay, value => {
         if (value) {
           ;(bgm.value as HTMLAudioElement).play()
         } else {
