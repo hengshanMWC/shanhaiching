@@ -4,6 +4,8 @@ import {
   pauseGameTime,
   gameTime,
   gameValue,
+  isIdle,
+  isSuccess,
 } from '../reactivity'
 import { regression } from '../pc/createWhale'
 import { createTaskList } from '../task'
@@ -16,17 +18,24 @@ export class GameCycle {
     this.game = game
     this.taskList = createTaskList(this.game.app, this.game.organization)
   }
-  createTaskList(): this {
-    this.taskList = createTaskList(this.game.app, this.game.organization)
-    return this
-  }
   // 开始
   start(): void {
     if (!isInit.value) {
       this.clean()
     }
     this.taskList = createTaskList(this.game.app, this.game.organization)
-    this.taskList.createTaskList().createTaskPromise()
+    this.taskList
+      .createTaskList()
+      .createTaskPromise()
+      .then(() => {
+        isSuccess.value = true
+        console.log(1)
+      })
+      .catch(() => {
+        isSuccess.value = false
+        console.log(2)
+      })
+      .finally(() => (isIdle.value = true))
     this.regression()
     this.handleIng()
   }

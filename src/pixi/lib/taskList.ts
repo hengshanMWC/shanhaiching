@@ -1,4 +1,3 @@
-import { isIdle, isSuccess } from '../reactivity'
 import { Task } from './task'
 
 export class TaskList extends Task {
@@ -14,10 +13,10 @@ export class TaskList extends Task {
     return this
   }
   taskPackage(task: Task): Promise<unknown> {
-    const resolve = task.resolve
+    const resolve = task.resolve.bind(task)
     task.resolve = () => {
       this.index++
-      resolve.apply(task)
+      resolve()
     }
     return task.createTaskPromise()
   }
@@ -26,16 +25,17 @@ export class TaskList extends Task {
       this._resolve = resolve
       this._reject = reject
       return this.next()
+        .then(this.resolve.bind(this))
+        .catch(this.reject.bind(this))
+        .finally(this.finally.bind(this))
     })
-      .then(this.resolve.bind(this))
-      .catch(this.reject.bind(this))
-      .finally(this.finally.bind(this))
   }
   next(): Promise<unknown> {
+    console.log('next', this.index, this.taskList)
     if (this.taskList.length > this.index) {
       return this.taskList[this.index].then(this.next.bind(this))
     }
-    return Promise.reject()
+    return Promise.resolve()
   }
   start(): this {
     this.tasks[this.index].start()
@@ -47,14 +47,12 @@ export class TaskList extends Task {
   }
   resolve(): void {
     this._resolve(true)
-    isSuccess.value = true
   }
   reject(): void {
     this.pause()
     this._reject()
-    isSuccess.value = false
   }
   finally(): void {
-    isIdle.value = true
+    // 占位
   }
 }

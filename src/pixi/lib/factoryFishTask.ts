@@ -6,13 +6,11 @@ import { Task } from './task'
 export class FactoryFishTask extends Task {
   public app
   public organization
-  public close
   public time = 0
   constructor(app: Application, organization: Organization) {
     super()
     this.app = app
     this.organization = organization
-    this.close = false
   }
   createTaskPromise(): Promise<unknown> {
     return new Promise((resolve, reject) => {
@@ -24,7 +22,7 @@ export class FactoryFishTask extends Task {
   start(): this {
     this.pause()
     this.time = setInterval(() => {
-      createFish(this.app, this.organization, this.resolve)
+      createFish(this.app, this.organization, this.resolve.bind(this))
     }, Number((Math.random() * FACTORY_NPC_ITEM).toFixed()))
     return this
   }
@@ -33,6 +31,7 @@ export class FactoryFishTask extends Task {
     return this
   }
   resolve(): void {
+    this.pause()
     this._resolve(true)
   }
   reject(): void {
