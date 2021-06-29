@@ -1,5 +1,6 @@
 import { Application } from 'pixi.js'
 import { FACTORY_NPC_ITEM } from '../constant'
+import { gamePlayerNumber } from '../reactivity'
 import { Organization } from './container'
 import { createFish } from '../npc/fish'
 import { Task } from './task'
@@ -23,7 +24,7 @@ export class FactoryFishTask extends Task {
     this.pause()
     this.time = setInterval(() => {
       createFish(this.app, this.organization, this.resolve.bind(this))
-    }, Number((Math.random() * FACTORY_NPC_ITEM).toFixed()))
+    }, Number((Math.random() * FACTORY_NPC_ITEM).toFixed()) / gamePlayerNumber.value)
     return this
   }
   pause(): this {
