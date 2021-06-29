@@ -27,14 +27,8 @@ export class GameCycle {
     this.taskList
       .createTaskList()
       .createTaskPromise()
-      .then(() => {
-        isSuccess.value = true
-        console.log(1)
-      })
-      .catch(() => {
-        isSuccess.value = false
-        console.log(2)
-      })
+      .then(() => (isSuccess.value = true))
+      .catch(() => (isSuccess.value = false))
       .finally(() => (isIdle.value = true))
     this.regression()
     this.handleIng()

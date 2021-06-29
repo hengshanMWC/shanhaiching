@@ -13,18 +13,24 @@ export class moveCombination {
   public v0
   public v1
   public direction: string | number = ''
-  public _direction: unknown
+  public _direction: string | number = ''
   public timeNow = 0
+  public _recovery: () => void
+  public keyboardMoveCombination: Array<KeyboardMove> = []
   constructor(app: Application, sprite: Sprite, v0: number, v1: number) {
     this.app = app
     this.sprite = sprite
     this.v0 = v0
     this.v1 = v1
+    this._recovery = () => {
+      this.keyboardMoveCombination.forEach(item => item.cease())
+      this.recovery()
+    }
     this.recovery()
   }
   bind(events: moveCombinationEvents): void {
-    Object.keys(events).forEach(key => {
-      new KeyboardMove(
+    this.keyboardMoveCombination = Object.keys(events).map(key => {
+      return new KeyboardMove(
         key,
         () => {
           if (isPause.value) return
@@ -38,6 +44,7 @@ export class moveCombination {
         }
       )
     })
+    window.addEventListener('blur', this._recovery)
   }
   quicken(): void {
     if (this.direction !== this._direction) {
@@ -55,6 +62,11 @@ export class moveCombination {
     this.timeNow = 0
     this.v = this.v0
     this.direction = ''
+    this._direction = ''
+  }
+  removeEvent(): void {
+    window.removeEventListener('blur', this._recovery)
+    this.keyboardMoveCombination.forEach(item => item.removeEvent())
   }
 }
 export class KeyboardMove {
