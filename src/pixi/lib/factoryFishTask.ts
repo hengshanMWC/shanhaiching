@@ -17,14 +17,16 @@ export class FactoryFishTask extends Task {
     return new Promise((resolve, reject) => {
       this._resolve = resolve
       this._reject = reject
-      this.start()
     })
   }
   start(): this {
     this.pause()
+    const millisecond =
+      Number((Math.random() * FACTORY_NPC_ITEM).toFixed()) /
+      gamePlayerNumber.value
     this.time = setInterval(() => {
       createFish(this.app, this.organization, this.resolve.bind(this))
-    }, Number((Math.random() * FACTORY_NPC_ITEM).toFixed()) / gamePlayerNumber.value)
+    }, millisecond)
     return this
   }
   pause(): this {

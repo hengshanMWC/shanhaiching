@@ -31,7 +31,6 @@ export class TaskList extends Task {
     })
   }
   next(): Promise<unknown> {
-    console.log('next', this.index, this.taskList)
     if (this.taskList.length > this.index) {
       return this.taskList[this.index].then(this.next.bind(this))
     }
