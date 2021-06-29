@@ -1,4 +1,4 @@
-import { TickerCallback } from 'pixi.js'
+import { TickerCallback, Application } from 'pixi.js'
 import { hitTestRectangle } from '../utils'
 import { gameValue } from '../reactivity'
 import { Game } from './game'
@@ -19,27 +19,27 @@ export class Organization {
       this.forTesting()
     }
   }
-  get app() {
+  get app(): Application {
     return this.game.app
   }
-  get width() {
+  get width(): number {
     return this.app.renderer.width
   }
-  get height() {
+  get height(): number {
     return this.app.renderer.height
   }
-  get Number() {
+  get Number(): number {
     return this.materialList.length + this.pcList.length
   }
-  get isFull() {
+  get isFull(): boolean {
     return Organization.npcMax <= this.Number
   }
-  addPC(...pc: Array<PlayerCharacter>) {
+  addPC(...pc: Array<PlayerCharacter>): this {
     this.pcList.push(...pc)
     pc.forEach(item => this.add(item))
     return this
   }
-  removePC(pc: PlayerCharacter) {
+  removePC(pc: PlayerCharacter): this {
     const index = this.pcList.findIndex(item => pc === item)
     if (index !== -1) {
       this.pcList.splice(index, 1)
@@ -47,14 +47,14 @@ export class Organization {
     }
     return this
   }
-  addMaterial(...material: Array<NPCFish>) {
-    if (this.isFull) return
+  addMaterial(...material: Array<NPCFish>): this {
+    if (this.isFull) return this
     const materials = material.slice(0, Organization.npcMax - this.Number)
     this.materialList.push(...materials)
     materials.forEach(item => this.add(item))
     return this
   }
-  removeMaterial(material: NPCFish) {
+  removeMaterial(material: NPCFish): this {
     const index = this.materialList.findIndex(item => material === item)
     if (index !== -1) {
       this.materialList.splice(index, 1)
@@ -62,30 +62,31 @@ export class Organization {
     }
     return this
   }
-  add(material: Fish) {
+  add(material: Fish): this {
     this.app.stage.addChild(material.getSprite())
     return this
   }
-  remove(material: Fish) {
+  remove(material: Fish): this {
     this.app.stage.removeChild(material.getSprite())
     material.destruction()
     return this
   }
-  empty() {
+  empty(): this {
     this.materialList.forEach(item => this.remove(item))
     this.materialList.length = 0
     this.pcList.forEach(item => this.remove(item))
     this.pcList.length = 0
+    return this
   }
-  openTickHitTestRectangle() {
+  openTickHitTestRectangle(): this {
     this.app.ticker.add(this.handleTick)
     return this
   }
-  closeTickHitTestRectangle() {
+  closeTickHitTestRectangle(): this {
     this.app.ticker.remove(this.handleTick)
     return this
   }
-  forTesting() {
+  forTesting(): void {
     let material, pc
     for (let i = 0; i < this.pcList.length; i++) {
       pc = this.pcList[i]
@@ -97,7 +98,7 @@ export class Organization {
     }
   }
   // 检测碰撞
-  hit(material: NPCFish, pc: PlayerCharacter) {
+  hit(material: NPCFish, pc: PlayerCharacter): boolean {
     if (hitTestRectangle(pc.getSprite(), material.getSprite())) {
       // 物料是否比主角大
       if (material.collision(pc)) {
@@ -116,7 +117,7 @@ export class Organization {
     return false
   }
   // 检测是否出界
-  out(material: NPCFish) {
+  out(material: NPCFish): this {
     if (
       (material.direction === 'l' &&
         material.getSprite().x > this.width + material.getSprite().width) ||
@@ -127,15 +128,18 @@ export class Organization {
     }
     return this
   }
-  haltMove() {
+  haltMove(): this {
     this.materialList.forEach(material => material.haltMove())
+    return this
   }
-  startMove() {
+  startMove(): this {
     this.materialList.forEach(material => material.startMove())
+    return this
   }
-  gameOver() {
+  gameOver(): this {
     if (!this.pcList.length) {
       this.game.gameCycle.fail()
     }
+    return this
   }
 }

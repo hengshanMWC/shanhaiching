@@ -9,19 +9,19 @@ export class TaskList extends Task {
     super()
     this.tasks = tasks
   }
-  createTaskList() {
+  createTaskList(): this {
     this.taskList = this.tasks.map(task => this.taskPackage(task))
     return this
   }
-  taskPackage(task: Task) {
+  taskPackage(task: Task): Promise<unknown> {
     const resolve = task.resolve
     task.resolve = () => {
       this.index++
-      resolve()
+      resolve.apply(task)
     }
     return task.createTaskPromise()
   }
-  createTaskPromise() {
+  createTaskPromise(): Promise<unknown> {
     return new Promise((resolve, reject) => {
       this._resolve = resolve
       this._reject = reject
@@ -31,30 +31,30 @@ export class TaskList extends Task {
       .catch(this.reject.bind(this))
       .finally(this.finally.bind(this))
   }
-  next(): Promise<any> {
+  next(): Promise<unknown> {
     if (this.taskList.length > this.index) {
       return this.taskList[this.index].then(this.next.bind(this))
     }
     return Promise.reject()
   }
-  start() {
+  start(): this {
     this.tasks[this.index].start()
     return this
   }
-  pause() {
+  pause(): this {
     this.tasks[this.index].pause()
     return this
   }
-  resolve() {
+  resolve(): void {
     this._resolve(true)
     isSuccess.value = true
   }
-  reject() {
+  reject(): void {
     this.pause()
     this._reject()
     isSuccess.value = false
   }
-  finally() {
+  finally(): void {
     isIdle.value = true
   }
 }

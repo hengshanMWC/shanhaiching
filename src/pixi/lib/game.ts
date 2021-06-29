@@ -17,8 +17,12 @@ export class Game {
   public gameCycle
   public startAntPause: (event: KeyboardEvent) => void
   public whales: Array<PlayerCharacter> = []
-  public idleWatch: WatchStopHandle = () => {}
-  public pauseWatch: WatchStopHandle = () => {}
+  public idleWatch: WatchStopHandle = () => {
+    // 属性xxx没有初始化表达式，且未在构造函数中明确赋值
+  }
+  public pauseWatch: WatchStopHandle = () => {
+    // 属性xxx没有初始化表达式，且未在构造函数中明确赋值
+  }
   constructor() {
     this.app = new PIXI.Application({
       height: getDocumentHeight(),
@@ -37,19 +41,19 @@ export class Game {
       }
     }
   }
-  async init() {
+  async init(): Promise<void> {
     await this.createWhales()
     this.organization.addPC(...this.whales)
     loaderImg()
   }
-  async createWhales() {
+  async createWhales(): Promise<void> {
     await getTexture('whale', whaleImage)
     const seat = [getArrowOperation, getEnglishOperation]
     this.whales = seat
       .splice(0, gamePlayerNumber.value)
       .map(bindEvent => createWhale(this.app, bindEvent))
   }
-  bindWatchEvent() {
+  bindWatchEvent(): void {
     this.removeWatchEvent()
     this.idleWatch = watch(isIdle, value => {
       if (value) {
@@ -66,16 +70,16 @@ export class Game {
       }
     })
   }
-  removeWatchEvent() {
+  removeWatchEvent(): void {
     if (typeof this.pauseWatch === 'function') {
       this.pauseWatch()
     }
   }
-  bindWindowEvent() {
+  bindWindowEvent(): void {
     this.removeWindowEvent()
     window.addEventListener('keyup', this.startAntPause)
   }
-  removeWindowEvent() {
+  removeWindowEvent(): void {
     window.removeEventListener('keyup', this.startAntPause)
   }
 }

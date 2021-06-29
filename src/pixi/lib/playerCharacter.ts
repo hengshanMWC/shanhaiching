@@ -14,7 +14,7 @@ export class PlayerCharacter extends Fish {
     super(app, sprite, healthValue, delicious)
     this.keyboardMove = new moveCombination(this.app, this.sprite, v0, v1)
   }
-  bind(events: moveCombinationEvents) {
+  bind(events: moveCombinationEvents): this {
     this.keyboardMove.bind(events)
     return this
   }

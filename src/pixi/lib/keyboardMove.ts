@@ -13,7 +13,7 @@ export class moveCombination {
   public v0
   public v1
   public direction: string | number = ''
-  public _direction: any
+  public _direction: unknown
   public timeNow = 0
   constructor(app: Application, sprite: Sprite, v0: number, v1: number) {
     this.app = app
@@ -22,7 +22,7 @@ export class moveCombination {
     this.v1 = v1
     this.recovery()
   }
-  bind(events: moveCombinationEvents) {
+  bind(events: moveCombinationEvents): void {
     Object.keys(events).forEach(key => {
       new KeyboardMove(
         key,
@@ -39,7 +39,7 @@ export class moveCombination {
       )
     })
   }
-  quicken() {
+  quicken(): void {
     if (this.direction !== this._direction) {
       this.timeNow = Date.now() + 250
       this._direction = this.direction
@@ -51,7 +51,7 @@ export class moveCombination {
       }
     }
   }
-  recovery() {
+  recovery(): void {
     this.timeNow = 0
     this.v = this.v0
     this.direction = ''
@@ -84,23 +84,23 @@ export class KeyboardMove {
     }
     this.addEvent()
   }
-  step() {
+  step(): void {
     this.time = requestAnimationFrame(() => {
       this.keydown()
       this.step()
     })
   }
-  cease() {
+  cease(): void {
     cancelAnimationFrame(this.time)
     this.time = 0
   }
-  addEvent() {
+  addEvent(): void {
     this.handleKeydown &&
       window.addEventListener('keydown', this.handleKeydown, false)
     this.handleKeyup &&
       window.addEventListener('keyup', this.handleKeyup, false)
   }
-  removeEvent() {
+  removeEvent(): void {
     this.handleKeydown &&
       window.removeEventListener('keydown', this.handleKeydown)
     this.handleKeyup && window.removeEventListener('keyup', this.handleKeyup)

@@ -24,7 +24,7 @@ export class NPCFish extends Fish {
       this.sprite.x += this.direction === 'l' ? speed : -speed
     }
   }
-  positionOut() {
+  positionOut(): this {
     this.sprite.x =
       this.direction === 'l' ? -this.sprite.width : this.app.renderer.width
     this.sprite.y = Math.min(
@@ -33,15 +33,15 @@ export class NPCFish extends Fish {
     )
     return this
   }
-  startMove() {
+  startMove(): this {
     this.app.ticker.add(this.move)
     return this
   }
-  haltMove() {
+  haltMove(): this {
     this.app.ticker.remove(this.move)
     return this
   }
-  destruction() {
+  destruction(): this {
     this.haltMove()
     return this
   }

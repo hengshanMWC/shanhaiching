@@ -1,4 +1,4 @@
-import { Loader, Sprite } from 'pixi.js'
+import { Loader, Sprite, ILoaderResource } from 'pixi.js'
 export const getDocumentHeight = (): number =>
   document.documentElement.clientHeight
 export const getDocumentWidth = (): number =>
@@ -14,7 +14,10 @@ export const getDocumentWidth = (): number =>
 //       .load(resolve)
 //   })
 // }
-export function getTexture(key: string, img: string) {
+export function getTexture(
+  key: string,
+  img: string
+): Promise<unknown[]> | ILoaderResource['texture'] {
   const resources = Loader.shared.resources
   if (!resources[key]?.texture) {
     return new Promise(function (resolve) {
@@ -23,8 +26,7 @@ export function getTexture(key: string, img: string) {
   }
   return resources[key].texture
 }
-export function hitTestRectangle(r1: Sprite, r2: Sprite) {
-  let combinedHalfWidths, combinedHalfHeights, vx, vy
+export function hitTestRectangle(r1: Sprite, r2: Sprite): boolean {
   const obj1 = {
     centerX: 0,
     centerY: 0,
@@ -50,12 +52,12 @@ export function hitTestRectangle(r1: Sprite, r2: Sprite) {
   obj2.halfHeight = r2.height / 2
 
   // 两个物体中点的距离
-  vx = obj1.centerX - obj2.centerX
-  vy = obj1.centerY - obj2.centerY
+  const vx = obj1.centerX - obj2.centerX
+  const vy = obj1.centerY - obj2.centerY
 
   // 接触距离
-  combinedHalfWidths = obj1.halfWidth + obj2.halfWidth
-  combinedHalfHeights = obj1.halfHeight + obj2.halfHeight
+  const combinedHalfWidths = obj1.halfWidth + obj2.halfWidth
+  const combinedHalfHeights = obj1.halfHeight + obj2.halfHeight
   // x中点距离 < x接触距离 && y中点距离 < x接触距离
   return Math.abs(vx) < combinedHalfWidths && Math.abs(vy) < combinedHalfHeights
 }

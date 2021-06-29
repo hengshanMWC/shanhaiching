@@ -25,25 +25,25 @@ export class Fish {
     this.healthValue = healthValue // 生命值
     this.delicious = delicious
   }
-  get healthValue() {
+  get healthValue(): number {
     return this._healthValue
   }
-  set healthValue(value) {
+  set healthValue(value: number) {
     this._healthValue = value
     this.sprite.width = value
     this.sprite.height = (this.size.height * this.healthValue) / this.size.width
   }
-  getSprite() {
+  getSprite(): Sprite {
     return this.sprite
   }
-  collision(fish: Fish) {
+  collision(fish: Fish): boolean {
     return this.healthValue > fish.healthValue
   }
-  eat(delicious: number) {
+  eat(delicious: number): this {
     this.healthValue += delicious
     return this
   }
-  destruction() {
+  destruction(): this {
     return this
   }
 }

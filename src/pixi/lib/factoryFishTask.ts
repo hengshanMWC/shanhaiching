@@ -14,30 +14,28 @@ export class FactoryFishTask extends Task {
     this.organization = organization
     this.close = false
   }
-  createTaskPromise() {
+  createTaskPromise(): Promise<unknown> {
     return new Promise((resolve, reject) => {
       this._resolve = resolve
       this._reject = reject
       this.start()
     })
   }
-  start() {
+  start(): this {
     this.pause()
     this.time = setInterval(() => {
       createFish(this.app, this.organization, this.resolve)
     }, Number((Math.random() * FACTORY_NPC_ITEM).toFixed()))
     return this
   }
-  pause() {
+  pause(): this {
     clearInterval(this.time)
     return this
   }
-  resolve() {
+  resolve(): void {
     this._resolve(true)
-    this._resolve = () => {}
   }
-  reject() {
+  reject(): void {
     this._reject()
-    this._reject = () => {}
   }
 }

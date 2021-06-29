@@ -13,14 +13,14 @@ export const isPlayed =
 // 游戏时间
 export const gameTime = ref(0)
 let time: number
-export function startGameTime() {
+export function startGameTime(): void {
   pauseGameTime()
   time = setTimeout(() => {
     gameTime.value += 1
     startGameTime()
   }, 1000)
 }
-export function pauseGameTime() {
+export function pauseGameTime(): void {
   clearTimeout(time)
 }
 // 游戏积分

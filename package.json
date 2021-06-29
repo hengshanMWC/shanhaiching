@@ -7,6 +7,13 @@
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint"
   },
+  "prettier": {
+    "singleQuote": true,
+    "semi": false,
+    "endOfLine": "crlf",
+    "arrowParens": "avoid",
+    "endOfLine": "lf"
+  },
   "dependencies": {
     "core-js": "^3.6.5",
     "pixi.js": "^6.0.4",

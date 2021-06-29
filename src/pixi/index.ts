@@ -1,6 +1,6 @@
 import { Game } from './lib/game'
 let game: Game
-export function getGame() {
+export function getGame(): Game {
   if (!game) {
     game = new Game()
     game.bindWindowEvent()

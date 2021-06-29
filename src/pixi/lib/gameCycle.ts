@@ -16,12 +16,12 @@ export class GameCycle {
     this.game = game
     this.taskList = createTaskList(this.game.app, this.game.organization)
   }
-  createTaskList() {
+  createTaskList(): this {
     this.taskList = createTaskList(this.game.app, this.game.organization)
     return this
   }
   // 开始
-  start() {
+  start(): void {
     if (!isInit.value) {
       this.clean()
     }
@@ -31,41 +31,41 @@ export class GameCycle {
     this.handleIng()
   }
   // 暂停
-  pause() {
+  pause(): void {
     this.taskList.pause()
     this.handlePause()
   }
   // 继续
-  continue() {
+  continue(): void {
     this.handleIng()
   }
   // 结束
-  end() {
+  end(): void {
     this.handlePause()
   }
-  handlePause() {
+  handlePause(): void {
     this.game.organization.haltMove() // 暂停游泳
     this.game.organization.closeTickHitTestRectangle() // 关闭检测
     pauseGameTime() // 暂停倒计时
   }
-  handleIng() {
+  handleIng(): void {
     this.game.organization.startMove()
     this.game.organization.openTickHitTestRectangle()
     this.taskList.start()
     startGameTime()
   }
-  regression() {
+  regression(): void {
     gameTime.value = 0
     gameValue.value = 0
   }
-  clean() {
+  clean(): void {
     this.game.organization.empty() // 清空
     this.game.whales.forEach(whale => {
       regression(whale)
     })
     this.game.organization.addPC(...this.game.whales)
   }
-  fail() {
+  fail(): void {
     this.taskList.reject()
   }
 }
