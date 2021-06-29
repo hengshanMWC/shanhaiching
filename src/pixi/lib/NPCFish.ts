@@ -2,13 +2,20 @@ import { Application, Sprite, TickerCallback } from 'pixi.js'
 import { Fish } from './fish'
 export enum Direction {
   l = 'l',
-  r = 'r'
+  r = 'r',
 }
 export class NPCFish extends Fish {
   public speed
   public direction
   public move: TickerCallback<undefined>
-  constructor (app: Application, sprite: Sprite, healthValue: number, direction: Direction = Direction.l, delicious = 1, speed = 1) {
+  constructor(
+    app: Application,
+    sprite: Sprite,
+    healthValue: number,
+    direction: Direction = Direction.l,
+    delicious = 1,
+    speed = 1
+  ) {
     super(app, sprite, healthValue, delicious)
     this.speed = speed
     this.direction = direction // r, l
@@ -17,25 +24,24 @@ export class NPCFish extends Fish {
       this.sprite.x += this.direction === 'l' ? speed : -speed
     }
   }
-  positionOut () {
-    this.sprite.x = this.direction === 'l' 
-      ? -this.sprite.width
-      : this.app.renderer.width
+  positionOut() {
+    this.sprite.x =
+      this.direction === 'l' ? -this.sprite.width : this.app.renderer.width
     this.sprite.y = Math.min(
-      this.app.renderer.height - this.sprite.height, 
+      this.app.renderer.height - this.sprite.height,
       Math.random() * this.app.renderer.height
     )
     return this
   }
-  startMove () {
+  startMove() {
     this.app.ticker.add(this.move)
     return this
   }
-  haltMove () {
+  haltMove() {
     this.app.ticker.remove(this.move)
     return this
   }
-  destruction () {
+  destruction() {
     this.haltMove()
     return this
   }

@@ -1,8 +1,8 @@
 import { Game } from './lib/game'
 let game: Game
-export function getGame () {
+export function getGame() {
   if (!game) {
-    game = new Game()  
+    game = new Game()
     game.bindWindowEvent()
     game.bindWatchEvent()
   }

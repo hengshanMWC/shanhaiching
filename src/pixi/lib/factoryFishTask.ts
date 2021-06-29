@@ -7,36 +7,36 @@ export class FactoryFishTask extends Task {
   public app
   public organization
   public close
-  public time: number = 0
-  constructor (app: Application, organization: Organization) {
+  public time = 0
+  constructor(app: Application, organization: Organization) {
     super()
     this.app = app
     this.organization = organization
     this.close = false
   }
-  createTaskPromise () {
+  createTaskPromise() {
     return new Promise((resolve, reject) => {
       this._resolve = resolve
       this._reject = reject
       this.start()
     })
   }
-  start () {
+  start() {
     this.pause()
     this.time = setInterval(() => {
       createFish(this.app, this.organization, this.resolve)
     }, Number((Math.random() * FACTORY_NPC_ITEM).toFixed()))
     return this
   }
-  pause () {
+  pause() {
     clearInterval(this.time)
     return this
   }
-  resolve (){
+  resolve() {
     this._resolve(true)
     this._resolve = () => {}
   }
-  reject () {
+  reject() {
     this._reject()
     this._reject = () => {}
   }

@@ -7,20 +7,20 @@ export const isInit = ref(true)
 export const isSuccess = ref(false)
 // 非空闲（游戏中）：是否暂停
 export const isPause = ref(false)
-export const isPlayed 
+export const isPlayed =
   // 非初始化 && 空闲
-  = computed(() => !isInit.value && isIdle.value)
+  computed(() => !isInit.value && isIdle.value)
 // 游戏时间
 export const gameTime = ref(0)
 let time: number
-export function startGameTime () {
+export function startGameTime() {
   pauseGameTime()
   time = setTimeout(() => {
     gameTime.value += 1
     startGameTime()
   }, 1000)
 }
-export function pauseGameTime () {
+export function pauseGameTime() {
   clearTimeout(time)
 }
 // 游戏积分

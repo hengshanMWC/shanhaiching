@@ -1,17 +1,9 @@
 import * as PIXI from 'pixi.js'
-import {
-  getDocumentHeight,
-  getDocumentWidth,
-} from '../utils'
+import { getDocumentHeight, getDocumentWidth } from '../utils'
 import { createWhale } from '../pc/createWhale'
 import { getArrowOperation, getEnglishOperation } from '../pc/operationMove'
 import { Organization } from './container'
-import {
-  isIdle,
-  isInit,
-  isPause,
-  gamePlayerNumber
-} from '../reactivity'
+import { isIdle, isInit, isPause, gamePlayerNumber } from '../reactivity'
 import { watch, WatchStopHandle } from 'vue'
 import whaleImage from '../../assets/images/whale.png'
 import { getTexture } from '../utils'
@@ -27,12 +19,12 @@ export class Game {
   public whales: Array<PlayerCharacter> = []
   public idleWatch: WatchStopHandle = () => {}
   public pauseWatch: WatchStopHandle = () => {}
-  constructor () {
+  constructor() {
     this.app = new PIXI.Application({
       height: getDocumentHeight(),
-      width: getDocumentWidth()
+      width: getDocumentWidth(),
     })
-    this.organization  = new Organization(this)
+    this.organization = new Organization(this)
     this.gameCycle = new GameCycle(this)
     this.startAntPause = event => {
       if (event.code === 'Space') {
@@ -45,20 +37,19 @@ export class Game {
       }
     }
   }
-  async init () {
+  async init() {
     await this.createWhales()
-    this.organization
-      .addPC(...this.whales)
+    this.organization.addPC(...this.whales)
     loaderImg()
   }
-  async createWhales () {
+  async createWhales() {
     await getTexture('whale', whaleImage)
-    const seat = [ getArrowOperation, getEnglishOperation ]
+    const seat = [getArrowOperation, getEnglishOperation]
     this.whales = seat
       .splice(0, gamePlayerNumber.value)
       .map(bindEvent => createWhale(this.app, bindEvent))
   }
-  bindWatchEvent () {
+  bindWatchEvent() {
     this.removeWatchEvent()
     this.idleWatch = watch(isIdle, value => {
       if (value) {
@@ -75,16 +66,16 @@ export class Game {
       }
     })
   }
-  removeWatchEvent () {
+  removeWatchEvent() {
     if (typeof this.pauseWatch === 'function') {
       this.pauseWatch()
     }
   }
-  bindWindowEvent () {
+  bindWindowEvent() {
     this.removeWindowEvent()
     window.addEventListener('keyup', this.startAntPause)
   }
-  removeWindowEvent () {
+  removeWindowEvent() {
     window.removeEventListener('keyup', this.startAntPause)
   }
-} 
+}

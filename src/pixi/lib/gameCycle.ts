@@ -12,62 +12,60 @@ import { TaskList } from './taskList'
 export class GameCycle {
   public game
   public taskList: TaskList
-  constructor (game: Game) {
+  constructor(game: Game) {
     this.game = game
     this.taskList = createTaskList(this.game.app, this.game.organization)
   }
-  createTaskList () {
+  createTaskList() {
     this.taskList = createTaskList(this.game.app, this.game.organization)
     return this
   }
   // 开始
-  start () {
+  start() {
     if (!isInit.value) {
       this.clean()
     }
     this.taskList = createTaskList(this.game.app, this.game.organization)
-    this.taskList
-      .createTaskList()
-      .createTaskPromise()
+    this.taskList.createTaskList().createTaskPromise()
     this.regression()
     this.handleIng()
   }
   // 暂停
-  pause () {
+  pause() {
     this.taskList.pause()
     this.handlePause()
   }
   // 继续
-  continue () {
+  continue() {
     this.handleIng()
   }
   // 结束
-  end () {
+  end() {
     this.handlePause()
   }
-  handlePause () {
+  handlePause() {
     this.game.organization.haltMove() // 暂停游泳
     this.game.organization.closeTickHitTestRectangle() // 关闭检测
     pauseGameTime() // 暂停倒计时
   }
-  handleIng () {
+  handleIng() {
     this.game.organization.startMove()
     this.game.organization.openTickHitTestRectangle()
     this.taskList.start()
     startGameTime()
   }
-  regression () {
+  regression() {
     gameTime.value = 0
     gameValue.value = 0
   }
-  clean () {
+  clean() {
     this.game.organization.empty() // 清空
     this.game.whales.forEach(whale => {
       regression(whale)
     })
     this.game.organization.addPC(...this.game.whales)
   }
-  fail () {
+  fail() {
     this.taskList.reject()
   }
 }

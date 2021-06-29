@@ -1,5 +1,5 @@
 import { Application, Sprite } from 'pixi.js'
-export function getArrowOperation (app: Application, sprite: Sprite) {
+export function getArrowOperation(app: Application, sprite: Sprite) {
   return {
     ArrowUp: {
       down: (v: number) => {
@@ -8,7 +8,7 @@ export function getArrowOperation (app: Application, sprite: Sprite) {
         } else {
           sprite.y = 0
         }
-      }
+      },
     },
     ArrowRight: {
       down: (v: number) => {
@@ -18,7 +18,7 @@ export function getArrowOperation (app: Application, sprite: Sprite) {
         } else {
           sprite.x = maxX
         }
-      }
+      },
     },
     ArrowDown: {
       down: (v: number) => {
@@ -28,7 +28,7 @@ export function getArrowOperation (app: Application, sprite: Sprite) {
         } else {
           sprite.y = maxY
         }
-      }
+      },
     },
     ArrowLeft: {
       down: (v: number) => {
@@ -37,11 +37,11 @@ export function getArrowOperation (app: Application, sprite: Sprite) {
         } else {
           sprite.x -= 0
         }
-      }
-    }
+      },
+    },
   }
 }
-export function getEnglishOperation (app: Application, sprite: Sprite) {
+export function getEnglishOperation(app: Application, sprite: Sprite) {
   return {
     w: {
       down: (v: number) => {
@@ -50,7 +50,7 @@ export function getEnglishOperation (app: Application, sprite: Sprite) {
         } else {
           sprite.y = 0
         }
-      }
+      },
     },
     d: {
       down: (v: number) => {
@@ -60,7 +60,7 @@ export function getEnglishOperation (app: Application, sprite: Sprite) {
         } else {
           sprite.x = maxX
         }
-      }
+      },
     },
     s: {
       down: (v: number) => {
@@ -70,7 +70,7 @@ export function getEnglishOperation (app: Application, sprite: Sprite) {
         } else {
           sprite.y = maxY
         }
-      }
+      },
     },
     a: {
       down: (v: number) => {
@@ -79,7 +79,7 @@ export function getEnglishOperation (app: Application, sprite: Sprite) {
         } else {
           sprite.x -= 0
         }
-      }
-    }
+      },
+    },
   }
 }
