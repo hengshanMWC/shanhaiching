@@ -1,11 +1,10 @@
-import { getDocumentWidth } from '../../utils'
-import { Task } from '../task'
-import { Boss } from './index'
 import { Application, TickerCallback } from 'pixi.js'
+import { getDocumentWidth } from '../../../utils'
+import { Boss } from '../index'
+import { Task } from '../../task'
 export class BossEntryTask extends Task {
   public boss
   public app
-  public time = 0
   public documentWidth = getDocumentWidth()
   public move: TickerCallback<undefined>
   constructor(boss: Boss, app: Application) {
@@ -26,7 +25,6 @@ export class BossEntryTask extends Task {
     return new Promise((resolve, reject) => {
       this._resolve = resolve
       this._reject = reject
-      this.start()
     })
   }
   start(): this {

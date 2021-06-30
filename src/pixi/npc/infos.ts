@@ -48,12 +48,20 @@ const infos: Array<ShanhaichingInfo> = [
 ]
 const shanhaichingNPCInfo: Array<ShanhaichingNPCInfo> = infos.map(
   (info, index) => {
-    const i = index + 1
     return {
       ...info,
-      healthValue: i * HEALTH_VALUE,
-      delicious: i * 0.5,
+      healthValue: index * 0.1 * HEALTH_VALUE + HEALTH_VALUE,
+      delicious: index * 0.1 + 0.5,
     }
   }
 )
 export default shanhaichingNPCInfo
+export const bossInfo: ShanhaichingNPCInfo = {
+  name: '犼',
+  introduce:
+    '体型拥有超过六公尺的巨大身体，性情极为暴躁，抚摸它头上的角可以让它变得温和。可一旦暴动，不烧烬一切凶暴血液就绝不会平静。留有曾经连续一个月暴走的记录，非常凶暴的宝可梦。',
+  textureName: 'hou',
+  img: require('../../assets/images/hou.png'),
+  healthValue: 2 * HEALTH_VALUE,
+  delicious: 10,
+}
