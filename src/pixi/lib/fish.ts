@@ -43,6 +43,12 @@ export class Fish {
     this.healthValue += delicious
     return this
   }
+  start(): this {
+    return this
+  }
+  pause(): this {
+    return this
+  }
   destruction(): this {
     return this
   }

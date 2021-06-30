@@ -21,6 +21,7 @@ export class FactoryFishTask extends Task {
   }
   start(): this {
     this.pause()
+    this.organization.start()
     const millisecond =
       Number((Math.random() * FACTORY_NPC_ITEM).toFixed()) /
       gamePlayerNumber.value
@@ -31,6 +32,7 @@ export class FactoryFishTask extends Task {
   }
   pause(): this {
     clearInterval(this.time)
+    this.organization.pause() // 暂停游泳
     return this
   }
   resolve(): void {

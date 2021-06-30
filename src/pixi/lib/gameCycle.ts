@@ -35,7 +35,6 @@ export class GameCycle {
   }
   // 暂停
   pause(): void {
-    this.taskList.pause()
     this.handlePause()
   }
   // 继续
@@ -47,12 +46,11 @@ export class GameCycle {
     this.handlePause()
   }
   handlePause(): void {
-    this.game.organization.pause() // 暂停游泳
     this.game.organization.closeTickHitTestRectangle() // 关闭检测
+    this.taskList.pause()
     pauseGameTime() // 暂停倒计时
   }
   handleIng(): void {
-    this.game.organization.start()
     this.game.organization.openTickHitTestRectangle()
     this.taskList.start()
     startGameTime()

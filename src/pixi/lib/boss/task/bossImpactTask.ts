@@ -1,4 +1,4 @@
-import { Application, TickerCallback } from 'pixi.js'
+import { Application } from 'pixi.js'
 import { Boss } from '../index'
 import { Task } from '../../task'
 import { Organization } from '../../container'
