@@ -24,7 +24,7 @@ export function createFish(
   )
   fish.positionOut()
   organization.addMaterial(fish)
-  fish.startMove()
+  fish.start()
 }
 export function createType() {
   return Math.floor(gameTime.value / NPC_TYPE_TASK_ITEM)

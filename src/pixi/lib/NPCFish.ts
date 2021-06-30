@@ -33,16 +33,16 @@ export class NPCFish extends Fish {
     )
     return this
   }
-  startMove(): this {
+  start(): this {
     this.app.ticker.add(this.move)
     return this
   }
-  haltMove(): this {
+  pause(): this {
     this.app.ticker.remove(this.move)
     return this
   }
   destruction(): this {
-    this.haltMove()
+    this.pause()
     return this
   }
 }

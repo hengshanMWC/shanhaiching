@@ -128,12 +128,12 @@ export class Organization {
     }
     return this
   }
-  haltMove(): this {
-    this.materialList.forEach(material => material.haltMove())
+  pause(): this {
+    this.materialList.forEach(material => material.pause())
     return this
   }
-  startMove(): this {
-    this.materialList.forEach(material => material.startMove())
+  start(): this {
+    this.materialList.forEach(material => material.start())
     return this
   }
   gameOver(): this {
