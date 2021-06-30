@@ -12,15 +12,15 @@ import { PlayerCharacter } from './playerCharacter'
 import { loaderImg } from '../npc/loader'
 
 export class Game {
-  public app
-  public organization
-  public gameCycle
-  public startAntPause: (event: KeyboardEvent) => void
-  public whales: Array<PlayerCharacter> = []
-  public idleWatch: WatchStopHandle = () => {
+  app
+  organization
+  gameCycle
+  startAntPause: (event: KeyboardEvent) => void
+  whales: Array<PlayerCharacter> = []
+  private idleWatch: WatchStopHandle = () => {
     // 属性xxx没有初始化表达式，且未在构造函数中明确赋值
   }
-  public pauseWatch: WatchStopHandle = () => {
+  private pauseWatch: WatchStopHandle = () => {
     // 属性xxx没有初始化表达式，且未在构造函数中明确赋值
   }
   constructor() {

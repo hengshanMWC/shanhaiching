@@ -2,7 +2,7 @@ import { Application, Sprite } from 'pixi.js'
 import { Fish } from './fish'
 import { moveCombination, moveCombinationEvents } from './keyboardMove'
 export class PlayerCharacter extends Fish {
-  public keyboardMove
+  keyboardMove
   constructor(
     app: Application,
     sprite: Sprite,

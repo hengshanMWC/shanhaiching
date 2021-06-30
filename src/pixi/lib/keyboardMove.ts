@@ -7,16 +7,16 @@ export interface moveCombinationEvents {
   }
 }
 export class moveCombination {
-  public app
-  public sprite
-  public v = 0
-  public v0
-  public v1
-  public direction: string | number = ''
-  public _direction: string | number = ''
-  public timeNow = 0
-  public _recovery: () => void
-  public keyboardMoveCombination: Array<KeyboardMove> = []
+  app
+  sprite
+  private v = 0
+  v0
+  v1
+  direction: string | number = ''
+  private _direction: string | number = ''
+  private timeNow = 0
+  private _recovery: () => void
+  keyboardMoveCombination: Array<KeyboardMove> = []
   constructor(app: Application, sprite: Sprite, v0: number, v1: number) {
     this.app = app
     this.sprite = sprite
@@ -70,11 +70,11 @@ export class moveCombination {
   }
 }
 export class KeyboardMove {
-  public keydown
-  public keyup
-  public time = 0
-  public handleKeydown: (event: KeyboardEvent) => void
-  public handleKeyup: (event: KeyboardEvent) => void
+  keydown
+  keyup
+  private time = 0
+  private handleKeydown: (event: KeyboardEvent) => void
+  private handleKeyup: (event: KeyboardEvent) => void
   constructor(
     value: number | string,
     keydown: () => void,

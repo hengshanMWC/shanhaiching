@@ -1,13 +1,13 @@
 import { Application, Sprite } from 'pixi.js'
 import { HEALTH_VALUE } from '../constant/index'
 export class Fish {
-  public app
-  public sprite
-  public size: {
+  app
+  sprite
+  size: {
     width: number
     height: number
   }
-  public delicious
+  delicious
   private _healthValue = 0
   constructor(
     app: Application,

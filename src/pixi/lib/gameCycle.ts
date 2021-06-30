@@ -12,8 +12,8 @@ import { createTaskList } from '../task'
 import { Game } from './game'
 import { TaskList } from './taskList'
 export class GameCycle {
-  public game
-  public taskList: TaskList
+  game
+  taskList: TaskList
   constructor(game: Game) {
     this.game = game
     this.taskList = createTaskList(this.game.app, this.game.organization)

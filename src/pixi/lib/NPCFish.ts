@@ -5,9 +5,9 @@ export enum Direction {
   r = 'r',
 }
 export class NPCFish extends Fish {
-  public speed
-  public direction
-  public move: TickerCallback<undefined>
+  speed
+  direction
+  private move: TickerCallback<undefined>
   constructor(
     app: Application,
     sprite: Sprite,

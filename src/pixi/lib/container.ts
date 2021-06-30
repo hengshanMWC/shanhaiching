@@ -7,10 +7,10 @@ import { PlayerCharacter } from './playerCharacter'
 import { Fish } from './fish'
 export class Organization {
   static npcMax = 20
-  public game
-  public materialList: Array<NPCFish>
-  public pcList: Array<PlayerCharacter>
-  public handleTick: TickerCallback<undefined>
+  game
+  materialList: Array<NPCFish>
+  pcList: Array<PlayerCharacter>
+  private handleTick: TickerCallback<undefined>
   constructor(game: Game) {
     this.game = game
     this.materialList = []

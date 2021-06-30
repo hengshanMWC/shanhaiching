@@ -5,9 +5,9 @@ import { Organization } from './container'
 import { createFish } from '../npc/fish'
 import { Task } from './task'
 export class FactoryFishTask extends Task {
-  public app
-  public organization
-  public time = 0
+  app
+  organization
+  time = 0
   constructor(app: Application, organization: Organization) {
     super()
     this.app = app

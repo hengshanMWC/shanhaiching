@@ -1,9 +1,9 @@
 import { Task } from './task'
 
 export class TaskList extends Task {
-  public index = 0
-  public tasks
-  public taskList: Array<Promise<unknown>> = []
+  private index = 0
+  tasks
+  taskList: Array<Promise<unknown>> = []
   constructor(tasks: Array<Task>) {
     super()
     this.tasks = tasks
@@ -30,7 +30,7 @@ export class TaskList extends Task {
         .finally(this.finally.bind(this))
     })
   }
-  next(): Promise<unknown> {
+  private next(): Promise<unknown> {
     if (this.taskList.length > this.index) {
       return this.taskList[this.index].then(this.next.bind(this))
     }

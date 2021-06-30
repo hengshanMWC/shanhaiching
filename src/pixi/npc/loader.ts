@@ -1,7 +1,7 @@
 import { Loader } from 'pixi.js'
 import infos, { bossInfo } from './infos'
 // import { loaderPromise } from '../utils'
-export function loaderImg(): Promise<any[]> {
+export function loaderImg(): Promise<unknown[]> {
   const imgs = infos.map(item => {
     return {
       name: item.textureName,
