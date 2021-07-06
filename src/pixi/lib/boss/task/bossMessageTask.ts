@@ -1,10 +1,13 @@
 import { Boss } from '../index'
 import { Task } from '../../task'
+import { Message } from '../../../message'
 export class BossMessageTask extends Task {
-  public boss
-  constructor(boss: Boss) {
+  boss
+  message
+  constructor(boss: Boss, message: Array<Message>) {
     super()
     this.boss = boss
+    this.message = message
   }
   createTaskPromise(): Promise<unknown> {
     return new Promise((resolve, reject) => {

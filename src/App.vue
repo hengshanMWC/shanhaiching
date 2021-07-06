@@ -20,11 +20,13 @@
         继续
       </div>
     </div>
+    <DiaLogue></DiaLogue>
   </div>
 </template>
 
 <script lang="ts">
 import { ref, computed, onMounted, Ref } from 'vue'
+import DiaLogue from './components/DiaLogue'
 import { getGame } from './pixi'
 import {
   isInit,
@@ -36,6 +38,9 @@ import {
   gameValue,
 } from './pixi/reactivity'
 export default {
+  components: {
+    DiaLogue,
+  },
   setup() {
     let game
     const bgm: Ref<HTMLElement> = ref(document.documentElement)
