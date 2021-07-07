@@ -24,15 +24,15 @@ export class TaskList extends Task {
     return new Promise((resolve, reject) => {
       this._resolve = resolve
       this._reject = reject
-      return this.next()
+      return this.nextThen()
         .then(this.resolve.bind(this))
         .catch(this.reject.bind(this))
         .finally(this.finally.bind(this))
     })
   }
-  private next(): Promise<unknown> {
+  private nextThen(): Promise<unknown> {
     if (this.taskList.length > this.index) {
-      return this.taskList[this.index].then(this.next.bind(this))
+      return this.taskList[this.index].then(this.nextThen.bind(this))
     }
     return Promise.resolve()
   }
@@ -53,5 +53,9 @@ export class TaskList extends Task {
   }
   finally(): void {
     // 占位
+  }
+  next(): this {
+    this.tasks[this.index].next()
+    return this
   }
 }

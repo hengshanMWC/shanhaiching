@@ -8,11 +8,11 @@ import createNpc, { NPCInfo } from './type'
 export function createFish(
   app: PIXI.Application,
   organization: Organization,
-  next: FactoryFishTask['resolve']
+  resolve: FactoryFishTask['resolve']
 ): void {
   const npc = createNpc(createType())
   if (!npc) {
-    next()
+    resolve()
   }
   const { texture, healthValue } = npc as NPCInfo
   const sprite = new PIXI.Sprite(texture)

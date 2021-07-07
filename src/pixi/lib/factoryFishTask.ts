@@ -42,4 +42,7 @@ export class FactoryFishTask extends Task {
   reject(): void {
     this._reject()
   }
+  next(): this {
+    return this
+  }
 }

@@ -1,4 +1,5 @@
 import { ref, computed, reactive } from 'vue'
+import { Message } from './message'
 // 是否空闲
 export const isIdle = ref(true)
 // 空闲模式：是否初始化。true即为游戏结束，init是为了做一个初始化的东西
@@ -29,9 +30,17 @@ export const gameValue = ref(0)
 export const gamePlayerNumber = ref(1)
 // 播放音乐
 export const isPlay = ref(false)
-// 对话
-export const messageObject = reactive({
+const messageObject = {
   text: '',
   leftImg: '',
   rightImg: '',
-})
+}
+export const store = {
+  state: reactive({
+    // 对话
+    messageObject: reactive(messageObject),
+  }),
+  setMessageObject(obj: Message): void {
+    this.state.messageObject = reactive({ ...messageObject, ...obj })
+  },
+}

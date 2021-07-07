@@ -1,7 +1,7 @@
 export interface Message {
-  text: String
-  leftImg?: String
-  rightImg?: String
+  text?: string
+  leftImg?: string
+  rightImg?: string
 }
 export const bossEntryMessage: Array<Message> = [
   {

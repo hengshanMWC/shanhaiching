@@ -11,7 +11,8 @@ import { regression } from '../pc/createWhale'
 import { createTaskList } from '../task'
 import { Game } from './game'
 import { TaskList } from './taskList'
-export class GameCycle {
+import { Next } from './task'
+export class GameCycle implements Next {
   game
   taskList: TaskList
   constructor(game: Game) {
@@ -68,5 +69,9 @@ export class GameCycle {
   }
   fail(): void {
     this.taskList.reject()
+  }
+  next(): this {
+    this.taskList.next()
+    return this
   }
 }

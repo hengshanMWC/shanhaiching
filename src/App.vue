@@ -20,13 +20,19 @@
         继续
       </div>
     </div>
-    <DiaLogue></DiaLogue>
+    <DiaLogue
+      v-if="messageObject.text"
+      :text="messageObject.text"
+      :leftImg="messageObject.leftImg"
+      :rightImg="messageObject.rightImg"
+      @click="handleNext"
+    ></DiaLogue>
   </div>
 </template>
 
 <script lang="ts">
 import { ref, computed, onMounted, Ref } from 'vue'
-import DiaLogue from './components/DiaLogue'
+import DiaLogue from './components/DiaLogue/index.vue'
 import { getGame } from './pixi'
 import {
   isInit,
@@ -36,13 +42,17 @@ import {
   isPlayed,
   gameTime,
   gameValue,
+  store,
 } from './pixi/reactivity'
 export default {
   components: {
     DiaLogue,
   },
   setup() {
-    let game
+    const game = getGame()
+    function handleNext() {
+      game.next()
+    }
     const bgm: Ref<HTMLElement> = ref(document.documentElement)
     const pixiContainer: Ref<HTMLElement> = ref(document.documentElement)
     const isPlay = ref(false)
@@ -63,7 +73,6 @@ export default {
       bgm.value.addEventListener('pause', () => {
         isPlay.value = false
       })
-      game = getGame()
       await game.init()
       pixiContainer.value.appendChild(game.app.view)
     })
@@ -73,6 +82,7 @@ export default {
     function bmgPause() {
       ;(bgm.value as HTMLAudioElement).pause()
     }
+
     return {
       pixiContainer,
       handleStart,
@@ -88,6 +98,8 @@ export default {
       bgm,
       bmgPlay,
       bmgPause,
+      messageObject: store.state.messageObject,
+      handleNext,
     }
   },
 }

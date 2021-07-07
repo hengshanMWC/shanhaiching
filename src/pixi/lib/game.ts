@@ -10,8 +10,9 @@ import { getTexture } from '../utils'
 import { GameCycle } from './gameCycle'
 import { PlayerCharacter } from './playerCharacter'
 import { loaderImg } from '../npc/loader'
+import { Next } from './task'
 
-export class Game {
+export class Game implements Next {
   app
   organization
   gameCycle
@@ -81,5 +82,9 @@ export class Game {
   }
   removeWindowEvent(): void {
     window.removeEventListener('keyup', this.startAntPause)
+  }
+  next(): this {
+    this.gameCycle.next()
+    return this
   }
 }
