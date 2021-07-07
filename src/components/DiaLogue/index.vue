@@ -1,5 +1,5 @@
 <template>
-  <div class="diaLogue">
+  <div class="diaLogue" @click="handleClick">
     <div class="diaLogue-box">
       <div class="content">
         <p>{{ text }}</p>
@@ -18,8 +18,13 @@ export default {
     rightImg: String,
     text: String,
   },
-  setup() {
-    return {}
+  setup(props, { emit }) {
+    function handleClick() {
+      emit('click')
+    }
+    return {
+      handleClick,
+    }
   },
 }
 </script>

@@ -41,6 +41,7 @@ export class BossMessagesTask extends Task {
     this._reject()
   }
   next(): this {
+    this.index++
     return this
   }
 }
