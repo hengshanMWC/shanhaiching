@@ -138,7 +138,7 @@ export class Organization {
   }
   gameOver(): this {
     if (!this.pcList.length) {
-      this.game.gameCycle.fail()
+      this.game.gameCycle.reject()
     }
     return this
   }

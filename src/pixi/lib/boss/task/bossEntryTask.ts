@@ -3,10 +3,10 @@ import { getDocumentWidth } from '../../../utils'
 import { Boss } from '../index'
 import { Task } from '../../task'
 export class BossEntryTask extends Task {
-  public boss
-  public app
-  public documentWidth = getDocumentWidth()
-  public move: TickerCallback<undefined>
+  boss
+  app
+  documentWidth = getDocumentWidth()
+  move: TickerCallback<undefined>
   constructor(boss: Boss, app: Application) {
     super()
     this.boss = boss

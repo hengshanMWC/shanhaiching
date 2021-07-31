@@ -67,7 +67,7 @@ export class GameCycle implements Next {
     })
     this.game.organization.addPC(...this.game.whales)
   }
-  fail(): void {
+  reject(): void {
     this.taskList.reject()
   }
   next(): this {

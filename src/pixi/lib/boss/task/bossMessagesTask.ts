@@ -1,14 +1,12 @@
-import { Boss } from '../index'
 import { Task } from '../../task'
 import { Message } from '../../../message'
 import { store } from '../../../reactivity'
 export class BossMessagesTask extends Task {
-  boss
   messages
+  ban = false
   private _index = -1
-  constructor(boss: Boss, messages: Array<Message>) {
+  constructor(messages: Array<Message>) {
     super()
-    this.boss = boss
     this.messages = messages
   }
   get message(): Message {
@@ -29,9 +27,11 @@ export class BossMessagesTask extends Task {
     })
   }
   start(): this {
+    this.ban = false
     return this
   }
   pause(): this {
+    this.ban = true
     return this
   }
   resolve(): void {
@@ -41,7 +41,7 @@ export class BossMessagesTask extends Task {
     this._reject()
   }
   next(): this {
-    this.index++
+    if (!this.ban) this.index++
     return this
   }
 }

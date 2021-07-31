@@ -38,9 +38,18 @@ const messageObject = {
 export const store = {
   state: reactive({
     // 对话
-    messageObject: reactive(messageObject),
+    messageObject: messageObject,
+    // 签名
+    signShow: false,
+    signValue: '',
   }),
   setMessageObject(obj: Message): void {
-    this.state.messageObject = reactive({ ...messageObject, ...obj })
+    this.state.messageObject = { ...messageObject, ...obj }
+  },
+  setSignShow(value = false) {
+    this.state.signShow = value
+  },
+  setSignValue(value = '') {
+    this.state.signValue = value
   },
 }

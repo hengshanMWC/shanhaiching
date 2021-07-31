@@ -5,8 +5,9 @@ import { Boss } from '../lib/boss'
 import { BossEntryTask } from '../lib/boss/task/bossEntryTask'
 import { BossMessagesTask } from '../lib/boss/task/bossMessagesTask'
 import { BossImpactTask } from '../lib/boss/task/bossImpactTask'
+import { YourName } from '../lib/boss/task/yourName'
 import { bossInfo } from './infos'
-import { bossEntryMessage } from '../message'
+import { bossEntryMessage, successMessage } from '../message'
 export function createBossTask(
   app: Application,
   organization: Organization
@@ -18,7 +19,9 @@ export function createBossTask(
   // organization.addMaterial(boss)
   return new TaskList([
     new BossEntryTask(boss, app),
-    new BossMessagesTask(boss, bossEntryMessage),
+    new BossMessagesTask(bossEntryMessage),
     new BossImpactTask(boss, app, organization),
+    new BossMessagesTask(successMessage),
+    new YourName(),
   ])
 }
