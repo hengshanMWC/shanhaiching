@@ -2,6 +2,7 @@ import { Application } from 'pixi.js'
 import { Boss } from '../index'
 import { Impact } from './impact'
 import { TextRise } from './textRise'
+import { Wait } from '../../wait'
 import { Task } from '../../task'
 import { Organization } from '../../container'
 export class BossImpactTask extends Task {
@@ -10,6 +11,7 @@ export class BossImpactTask extends Task {
   organization
   impact
   loss
+  private wait: Wait
   private textRise
   constructor(
     boss: Boss,
@@ -26,6 +28,7 @@ export class BossImpactTask extends Task {
     this.app = app
     this.organization = organization
     this.loss = loss
+    this.wait = new Wait(this.app)
     this.impact = new Impact(this.boss, this.app, this.getTargeData())
     this.textRise = new TextRise(app, this.boss.getSprite(), loss.toString())
   }
@@ -67,7 +70,10 @@ export class BossImpactTask extends Task {
         this.emitLoss()
         resolve()
       }
-      return this.impact.createTaskPromise()
+      return this.wait
+        .start()
+        .createTaskPromise()
+        .then(() => this.impact.createTaskPromise())
     }
     return Promise.resolve()
   }
@@ -98,6 +104,7 @@ export class BossImpactTask extends Task {
     return this
   }
   pause(): this {
+    this.wait.pause()
     this.impact.pause()
     this.textRise.pause()
     return this
