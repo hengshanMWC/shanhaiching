@@ -1,6 +1,7 @@
 import { Application } from 'pixi.js'
 import { Boss } from '../index'
 import { Impact } from './impact'
+import { TextRise } from './textRise'
 import { Task } from '../../task'
 import { Organization } from '../../container'
 export class BossImpactTask extends Task {
@@ -9,6 +10,7 @@ export class BossImpactTask extends Task {
   organization
   impact
   loss
+  private textRise
   constructor(
     boss: Boss,
     app: Application,
@@ -25,6 +27,7 @@ export class BossImpactTask extends Task {
     this.organization = organization
     this.loss = loss
     this.impact = new Impact(this.boss, this.app, this.getTargeData())
+    this.textRise = new TextRise(app, this.boss.getSprite(), loss.toString())
   }
   get pcSprite(): {
     x: number
@@ -70,6 +73,7 @@ export class BossImpactTask extends Task {
   }
   emitLoss(): void {
     this.boss.healthValue -= this.loss
+    this.textRise.draw()
   }
   getTargeData(): {
     x: number
@@ -95,6 +99,7 @@ export class BossImpactTask extends Task {
   }
   pause(): this {
     this.impact.pause()
+    this.textRise.pause()
     return this
   }
   resolve(): void {
