@@ -9,7 +9,7 @@ export function loaderImg(): Promise<unknown[]> {
     }
   })
   imgs.push({
-    name: bossInfo.name,
+    name: bossInfo.textureName,
     url: bossInfo.img,
   })
   return new Promise(function (resolve) {

@@ -34,6 +34,8 @@
 import { ref, computed, onMounted, Ref } from 'vue'
 import DiaLogue from './components/DiaLogue/index.vue'
 import { getGame } from './pixi'
+import { Game } from './pixi/lib/game'
+import { loaderImg } from './pixi/npc/loader'
 import {
   isInit,
   isIdle,
@@ -49,7 +51,7 @@ export default {
     DiaLogue,
   },
   setup() {
-    const game = getGame()
+    let game: Game
     function handleNext() {
       game.next()
     }
@@ -73,6 +75,9 @@ export default {
       bgm.value.addEventListener('pause', () => {
         isPlay.value = false
       })
+      await loaderImg()
+      console.log('getGame')
+      game = getGame()
       await game.init()
       pixiContainer.value.appendChild(game.app.view)
     })

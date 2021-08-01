@@ -9,7 +9,6 @@ import whaleImage from '../../assets/images/whale.png'
 import { getTexture } from '../utils'
 import { GameCycle } from './gameCycle'
 import { PlayerCharacter } from './playerCharacter'
-import { loaderImg } from '../npc/loader'
 import { Next } from './task'
 
 export class Game implements Next {
@@ -45,7 +44,6 @@ export class Game implements Next {
   async init(): Promise<void> {
     await this.createWhales()
     this.organization.addPC(...this.whales)
-    loaderImg()
   }
   async createWhales(): Promise<void> {
     await getTexture('whale', whaleImage)
