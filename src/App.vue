@@ -76,7 +76,6 @@ export default {
         isPlay.value = false
       })
       await loaderImg()
-      console.log('getGame')
       game = getGame()
       await game.init()
       pixiContainer.value.appendChild(game.app.view)
