@@ -95,12 +95,10 @@ export class BossImpactTask extends Task {
       height: sprite.height,
     }
   }
-  createImpact(): this {
-    this.impact = new Impact(this.boss, this.app, this.getTargeData()).start()
-    return this
-  }
   start(): this {
-    this.createImpact()
+    this.wait.start()
+    this.impact.start()
+    this.textRise.start()
     return this
   }
   pause(): this {

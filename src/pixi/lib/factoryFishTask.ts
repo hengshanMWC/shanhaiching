@@ -4,35 +4,51 @@ import { gamePlayerNumber } from '../reactivity'
 import { Organization } from './container'
 import { createFish } from '../npc/fish'
 import { Task } from './task'
+import { Wait } from './wait'
 export class FactoryFishTask extends Task {
   app
   organization
-  time = 0
+  private wait
   constructor(app: Application, organization: Organization) {
     super()
     this.app = app
     this.organization = organization
+    this.wait = new Wait(app, this.getMillisecond())
+  }
+  getMillisecond(): number {
+    return (
+      Number((Math.random() * FACTORY_NPC_ITEM).toFixed()) /
+      gamePlayerNumber.value
+    )
   }
   createTaskPromise(): Promise<unknown> {
     return new Promise((resolve, reject) => {
       this._resolve = resolve
       this._reject = reject
+      return this.nextThen()
+    })
+  }
+  nextThen(): Promise<unknown> {
+    return this.wait.createTaskPromise().then(() => {
+      const b = createFish(this.app, this.organization, this.resolve.bind(this))
+      if (b) {
+        const p = this.nextThen()
+        this.wait.time = this.getMillisecond()
+        this.wait.start()
+        return p
+      } else {
+        return Promise.resolve()
+      }
     })
   }
   start(): this {
-    this.pause()
     this.organization.start()
-    const millisecond =
-      Number((Math.random() * FACTORY_NPC_ITEM).toFixed()) /
-      gamePlayerNumber.value
-    this.time = setInterval(() => {
-      createFish(this.app, this.organization, this.resolve.bind(this))
-    }, millisecond)
+    this.wait.start()
     return this
   }
   pause(): this {
-    clearInterval(this.time)
     this.organization.pause() // 暂停游泳
+    this.wait.pause()
     return this
   }
   resolve(): void {

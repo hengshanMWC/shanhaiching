@@ -6,7 +6,7 @@ export class Wait extends Task {
   private move: TickerCallback<unknown>
   private waitTime = 0
   private _time
-  private ing: boolean = false
+  private ing = false
   constructor(app: Application, time = 2000) {
     super()
     this.app = app
@@ -27,17 +27,17 @@ export class Wait extends Task {
     })
   }
   start(): this {
+    this.app.ticker.add(this.move)
     if (this.ing) {
       this.waitTime = Date.now() + this._time
     }
-    this.app.ticker.add(this.move)
     return this
   }
   pause(): this {
+    this.app.ticker.remove(this.move)
     if (this.ing) {
       this._time = this.waitTime - Date.now()
     }
-    this.app.ticker.remove(this.move)
     return this
   }
   resolve(): void {

@@ -9,10 +9,11 @@ export function createFish(
   app: PIXI.Application,
   organization: Organization,
   resolve: FactoryFishTask['resolve']
-): void {
+): boolean {
   const npc = createNpc(createType())
   if (!npc) {
     resolve()
+    return false
   }
   const { texture, healthValue } = npc as NPCInfo
   const sprite = new PIXI.Sprite(texture)
@@ -25,6 +26,7 @@ export function createFish(
   fish.positionOut()
   organization.addMaterial(fish)
   fish.start()
+  return true
 }
 export function createType(): number {
   return Math.floor(gameTime.value / NPC_TYPE_TASK_ITEM)
