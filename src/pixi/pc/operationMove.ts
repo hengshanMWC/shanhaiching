@@ -1,5 +1,10 @@
 import { Application, Sprite } from 'pixi.js'
-export function getArrowOperation(app: Application, sprite: Sprite) {
+import { moveCombinationEvents } from '../lib/keyboardMove'
+export type OperationFunction = (
+  app: Application,
+  sprite: Sprite
+) => moveCombinationEvents
+export const getArrowOperation: OperationFunction = (app, sprite) => {
   return {
     ArrowUp: {
       down: (v: number) => {
@@ -41,7 +46,7 @@ export function getArrowOperation(app: Application, sprite: Sprite) {
     },
   }
 }
-export function getEnglishOperation(app: Application, sprite: Sprite) {
+export const getEnglishOperation: OperationFunction = (app, sprite) => {
   return {
     w: {
       down: (v: number) => {
