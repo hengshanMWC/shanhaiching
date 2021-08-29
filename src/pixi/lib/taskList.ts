@@ -8,6 +8,9 @@ export class TaskList extends Task {
     super()
     this.tasks = tasks
   }
+  get currentTask(): Task {
+    return this.tasks[this.index]
+  }
   createTaskList(): this {
     this.taskList = this.tasks.map(task => this.taskPackage(task))
     return this
@@ -37,11 +40,11 @@ export class TaskList extends Task {
     return Promise.resolve()
   }
   start(): this {
-    this.tasks[this.index].start()
+    this.currentTask && this.currentTask.start()
     return this
   }
   pause(): this {
-    this.tasks[this.index].pause()
+    this.currentTask && this.currentTask.pause()
     return this
   }
   resolve(): void {
@@ -55,7 +58,7 @@ export class TaskList extends Task {
     // 占位
   }
   next(): this {
-    this.tasks[this.index].next()
+    this.currentTask && this.currentTask.next()
     return this
   }
 }
