@@ -14,10 +14,9 @@ import { TaskList } from './taskList'
 import { Next } from './task'
 export class GameCycle implements Next {
   game
-  taskList: TaskList
+  taskList!: TaskList
   constructor(game: Game) {
     this.game = game
-    this.taskList = createTaskList(this.game.app, this.game.organization)
   }
   // 开始
   start(): void {

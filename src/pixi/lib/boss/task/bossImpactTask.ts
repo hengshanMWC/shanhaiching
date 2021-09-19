@@ -73,7 +73,7 @@ export class BossImpactTask extends Task {
       return this.wait
         .start()
         .createTaskPromise()
-        .then(() => this.impact.createTaskPromise())
+        .then(() => this.impact.start().createTaskPromise())
     }
     return Promise.resolve()
   }

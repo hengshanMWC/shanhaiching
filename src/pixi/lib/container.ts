@@ -8,7 +8,7 @@ import { Fish } from './fish'
 export class Organization {
   static npcMax = 20
   game
-  materialList: Array<NPCFish>
+  materialList: Array<Fish>
   pcList: Array<PlayerCharacter>
   private handleTick: TickerCallback<undefined>
   constructor(game: Game) {
@@ -47,14 +47,14 @@ export class Organization {
     }
     return this
   }
-  addMaterial(...material: Array<NPCFish>): this {
+  addMaterial(...material: Array<Fish>): this {
     if (this.isFull) return this
     const materials = material.slice(0, Organization.npcMax - this.Number)
     this.materialList.push(...materials)
     materials.forEach(item => this.add(item))
     return this
   }
-  removeMaterial(material: NPCFish): this {
+  removeMaterial(material: Fish): this {
     const index = this.materialList.findIndex(item => material === item)
     if (index !== -1) {
       this.materialList.splice(index, 1)
@@ -93,19 +93,20 @@ export class Organization {
       for (let j = 0; j < this.materialList.length; j++) {
         material = this.materialList[j]
         if (this.hit(material, pc)) return
-        this.out(material)
+        if (material instanceof NPCFish) {
+          this.out(material)
+        }
       }
     }
   }
   // 检测碰撞
-  hit(material: NPCFish, pc: PlayerCharacter): boolean {
+  hit(material: Fish, pc: PlayerCharacter): boolean {
     if (hitTestRectangle(pc.getSprite(), material.getSprite())) {
       // 物料是否比主角大
       if (material.collision(pc)) {
         material.eat(pc.delicious)
         this.removePC(pc)
         this.gameOver()
-
         return true
       } else {
         pc.eat(material.delicious)

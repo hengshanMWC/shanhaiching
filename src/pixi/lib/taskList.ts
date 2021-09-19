@@ -24,6 +24,9 @@ export class TaskList extends Task {
     return task.createTaskPromise()
   }
   createTaskPromise(): Promise<unknown> {
+    if (this.tasks.length !== this.taskList.length) {
+      this.createTaskList()
+    }
     return new Promise((resolve, reject) => {
       this._resolve = resolve
       this._reject = reject
@@ -34,6 +37,7 @@ export class TaskList extends Task {
     })
   }
   private nextThen(): Promise<unknown> {
+    console.log('nextThen', this.taskList, this.tasks)
     if (this.taskList.length > this.index) {
       return this.taskList[this.index].then(this.nextThen.bind(this))
     }

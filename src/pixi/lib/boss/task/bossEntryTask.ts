@@ -11,13 +11,14 @@ export class BossEntryTask extends Task {
     super()
     this.boss = boss
     this.app = app
+    this.boss.getSprite().x = this.documentWidth + this.boss.getSprite().width
     this.move = () => {
       const sprite = this.boss.getSprite()
       // 出现半个身
       if (this.documentWidth - sprite.x > sprite.width / 2) {
-        this.boss.getSprite().x += -this.boss.speed
-      } else {
         this.resolve()
+      } else {
+        sprite.x += -this.boss.speed
       }
     }
   }
@@ -25,6 +26,7 @@ export class BossEntryTask extends Task {
     return new Promise((resolve, reject) => {
       this._resolve = resolve
       this._reject = reject
+      this.start()
     })
   }
   start(): this {

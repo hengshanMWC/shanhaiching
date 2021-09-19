@@ -16,12 +16,12 @@ export function createBossTask(
     Loader.shared.resources[bossInfo.textureName].texture
   )
   const boss = new Boss(app, sprite, bossInfo.healthValue)
-  // organization.addMaterial(boss)
+  organization.addMaterial(boss)
   return new TaskList([
     new BossEntryTask(boss, app),
-    new BossMessagesTask(bossEntryMessage),
-    new BossImpactTask(boss, app, organization),
-    new BossMessagesTask(successMessage),
-    new YourName(),
+    // new BossMessagesTask(bossEntryMessage),
+    // new BossImpactTask(boss, app, organization),
+    // new BossMessagesTask(successMessage),
+    // new YourName(),
   ])
 }
