@@ -25,7 +25,7 @@
       :text="messageObject.text"
       :leftImg="messageObject.leftImg"
       :rightImg="messageObject.rightImg"
-      @click="handleNext"
+      @next="handleNext"
     ></DiaLogue>
   </div>
 </template>
@@ -68,6 +68,7 @@ export default {
     const endText = computed(() =>
       isSuccess.value ? '恭喜你！羽化成鲲！' : '游戏结束，鲸落'
     )
+    const messageObject = computed(() => store.state.messageObject)
     onMounted(async () => {
       bgm.value.addEventListener('play', () => {
         isPlay.value = true
@@ -102,7 +103,7 @@ export default {
       bgm,
       bmgPlay,
       bmgPause,
-      messageObject: store.state.messageObject,
+      messageObject,
       handleNext,
     }
   },

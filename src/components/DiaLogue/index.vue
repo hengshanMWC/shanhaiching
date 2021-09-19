@@ -1,5 +1,5 @@
 <template>
-  <div class="diaLogue" @click="handleClick">
+  <div class="diaLogue" @click="handleNext">
     <div class="diaLogue-box">
       <div class="content">
         <p>{{ text }}</p>
@@ -19,11 +19,11 @@ export default {
     text: String,
   },
   setup(props, { emit }) {
-    function handleClick() {
-      emit('click')
+    function handleNext() {
+      emit('next')
     }
     return {
-      handleClick,
+      handleNext,
     }
   },
 }

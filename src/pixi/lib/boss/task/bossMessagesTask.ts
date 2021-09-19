@@ -4,23 +4,30 @@ import { store } from '../../../reactivity'
 export class BossMessagesTask extends Task {
   messages
   ban = false
-  private _index = -1
+  private _index!: number
   constructor(messages: Array<Message>) {
     super()
     this.messages = messages
   }
   get message(): Message {
-    if (this._index > 0 && this._index < this.messages.length) {
+    if (this.messages.length > this._index) {
       return this.messages[this._index]
     }
     return {}
   }
+  get index(): number {
+    return this._index
+  }
   set index(value: number) {
-    this._index = value
-    store.setMessageObject(this.message)
-    if (value >= this.messages.length) this.resolve()
+    if (this.messages.length > value) {
+      this._index = value
+      store.setMessageObject(this.message)
+    } else {
+      this.resolve()
+    }
   }
   createTaskPromise(): Promise<unknown> {
+    this.index = 0
     return new Promise((resolve, reject) => {
       this._resolve = resolve
       this._reject = reject
