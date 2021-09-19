@@ -1,19 +1,29 @@
 import { Task } from './task'
 
 export class TaskList extends Task {
-  private index = 0
+  private _index!: number
+  taskPrmoise!: Promise<unknown>
   tasks
-  taskList: Array<Promise<unknown>> = []
   constructor(tasks: Array<Task>) {
     super()
     this.tasks = tasks
+    this.index = 0
   }
   get currentTask(): Task {
-    return this.tasks[this.index]
+    return this.tasks[this._index]
   }
-  createTaskList(): this {
-    this.taskList = this.tasks.map(task => this.taskPackage(task))
-    return this
+  get index(): number {
+    return this._index
+  }
+  set index(value: number) {
+    if (this.tasks.length > value) {
+      this._index = value
+      this.setCurrentTask()
+    }
+  }
+  setCurrentTask(): Promise<unknown> {
+    this.taskPrmoise = this.taskPackage(this.tasks[this._index])
+    return this.taskPrmoise
   }
   taskPackage(task: Task): Promise<unknown> {
     const resolve = task.resolve.bind(task)
@@ -24,9 +34,7 @@ export class TaskList extends Task {
     return task.createTaskPromise()
   }
   createTaskPromise(): Promise<unknown> {
-    if (this.tasks.length !== this.taskList.length) {
-      this.createTaskList()
-    }
+    this.index = 0
     return new Promise((resolve, reject) => {
       this._resolve = resolve
       this._reject = reject
@@ -37,9 +45,8 @@ export class TaskList extends Task {
     })
   }
   private nextThen(): Promise<unknown> {
-    console.log('nextThen', this.taskList, this.tasks)
-    if (this.taskList.length > this.index) {
-      return this.taskList[this.index].then(this.nextThen.bind(this))
+    if (this.tasks.length > this._index) {
+      return this.taskPrmoise.then(this.nextThen.bind(this))
     }
     return Promise.resolve()
   }

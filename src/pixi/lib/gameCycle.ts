@@ -25,7 +25,6 @@ export class GameCycle implements Next {
     }
     this.taskList = createTaskList(this.game.app, this.game.organization)
     this.taskList
-      .createTaskList()
       .createTaskPromise()
       .then(() => (isSuccess.value = true))
       .catch(() => (isSuccess.value = false))

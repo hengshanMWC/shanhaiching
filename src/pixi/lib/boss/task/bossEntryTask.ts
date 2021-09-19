@@ -1,17 +1,18 @@
 import { Application, TickerCallback } from 'pixi.js'
-import { getDocumentWidth } from '../../../utils'
+import { getDocumentWidth, getDocumentHeight } from '../../../utils'
 import { Boss } from '../index'
 import { Task } from '../../task'
 export class BossEntryTask extends Task {
   boss
   app
   documentWidth = getDocumentWidth()
+  documentHeight = getDocumentHeight()
   move: TickerCallback<undefined>
   constructor(boss: Boss, app: Application) {
     super()
     this.boss = boss
     this.app = app
-    this.boss.getSprite().x = this.documentWidth + this.boss.getSprite().width
+    this.initSprite()
     this.move = () => {
       const sprite = this.boss.getSprite()
       // 出现半个身
@@ -28,6 +29,12 @@ export class BossEntryTask extends Task {
       this._reject = reject
       this.start()
     })
+  }
+  initSprite(): this {
+    const sprite = this.boss.getSprite()
+    sprite.x = this.documentWidth + sprite.width
+    sprite.y = this.documentHeight / 2 - sprite.height / 2
+    return this
   }
   start(): this {
     this.app.ticker.add(this.move)

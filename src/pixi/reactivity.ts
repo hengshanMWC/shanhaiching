@@ -46,10 +46,10 @@ export const store = {
   setMessageObject(obj: Message): void {
     this.state.messageObject = { ...messageObject, ...obj }
   },
-  setSignShow(value = false) {
+  setSignShow(value = false): void {
     this.state.signShow = value
   },
-  setSignValue(value = '') {
+  setSignValue(value = ''): void {
     this.state.signValue = value
   },
 }
