@@ -12,6 +12,10 @@ export class Impact extends Task {
   app
   speed
   targeData
+  currentPlace: {
+    x: number
+    y: number
+  }
   move: TickerCallback<undefined>
   private route: Route
   constructor(
@@ -30,68 +34,59 @@ export class Impact extends Task {
     this.app = app
     this.speed = speed
     this.targeData = targeData
+    this.currentPlace = {
+      x: this.sprite.x,
+      y: this.sprite.y,
+    }
     this.route = this.getRoute()
-    console.log(this.route)
     this.move = () => {
-      if (this.isArrive) {
-        this.resolve()
-      } else {
-        console.log(this.distanceX, this.distanceY)
+      const sprite = this.sprite
+      if (this.route.frame >= 1) {
+        const x = this.route.speedX
+        const y = this.route.speedY
         if (this.directionX === Direction.r) {
-          if (this.distanceX <= this.route.speedX) {
-            this.sprite.x += this.route.speedX
-          } else {
-            this.sprite.x += this.distanceX
-          }
+          sprite.x += x
         } else {
-          if (this.distanceX >= this.route.speedX) {
-            this.sprite.x -= this.route.speedX
-          } else {
-            this.sprite.x -= this.distanceX
-          }
+          sprite.x -= x
         }
         if (this.directionY === Direction.b) {
-          if (this.distanceY <= this.route.speedY) {
-            this.sprite.y += this.route.speedY
-          } else {
-            this.sprite.y += this.distanceY
-          }
+          sprite.y += y
         } else {
-          if (this.distanceY >= this.route.speedY) {
-            this.sprite.y -= this.route.speedY
-          } else {
-            this.sprite.y -= this.distanceY
-          }
+          sprite.y -= y
         }
+        this.route.frame--
+      } else {
+        const num = this.route.frame * this.speed
+        if (this.directionX === Direction.r) {
+          sprite.x += num
+        } else {
+          sprite.x -= num
+        }
+        if (this.directionY === Direction.b) {
+          sprite.y += num
+        } else {
+          sprite.y -= num
+        }
+        this.route.frame = 0
+      }
+      if (this.route.frame <= 0) {
+        this.resolve()
       }
     }
   }
   get sprite(): Sprite {
     return this.boss.getSprite()
   }
-  get currentPlace(): {
-    x: number
-    y: number
-  } {
-    return {
-      x: this.sprite.x,
-      y: this.sprite.y,
-    }
-  }
-  get targetPlace(): {
-    x: number
-    y: number
-  } {
-    return {
-      x: this.targeData.x + this.sprite.width / 2,
-      y: this.targeData.y + this.sprite.height / 2,
-    }
-  }
   get distanceX(): number {
-    return this.currentPlace.x - this.targetPlace.x
+    const num = this.currentPlace.x - this.targeData.x
+    const deviation = num >= 0 ? this.sprite.width / 2 : -this.sprite.width / 2
+    return num + deviation
   }
   get distanceY(): number {
-    return this.currentPlace.y - this.targetPlace.y
+    const num = this.currentPlace.y - this.targeData.y
+    const deviation =
+      num >= 0 ? this.sprite.height / 2 : -this.sprite.height / 2
+    return num + deviation
   }
   get isArrive(): boolean {
     return !(this.distanceX && this.distanceY)
