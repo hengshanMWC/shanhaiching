@@ -9,7 +9,7 @@ export class BossImpactTask extends Task {
   boss
   app
   organization
-  impact
+  impact!: Impact
   loss
   private wait: Wait
   private textRise
@@ -29,7 +29,6 @@ export class BossImpactTask extends Task {
     this.organization = organization
     this.loss = loss
     this.wait = new Wait(this.app)
-    this.impact = new Impact(this.boss, this.app, this.getTargeData())
     this.textRise = new TextRise(app, this.boss.getSprite(), loss.toString())
   }
   get pcSprite(): {
@@ -53,9 +52,7 @@ export class BossImpactTask extends Task {
     return new Promise((resolve, reject) => {
       this._resolve = resolve
       this._reject = reject
-      this.impact
-        .createTaskPromise()
-        .then(this.nextThen.bind(this))
+      return this.nextThen()
         .then(this.resolve.bind(this))
         .catch(this.reject.bind(this))
         .finally(this.finally.bind(this))

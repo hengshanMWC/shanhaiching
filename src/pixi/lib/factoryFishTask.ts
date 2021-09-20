@@ -25,6 +25,7 @@ export class FactoryFishTask extends Task {
     return new Promise((resolve, reject) => {
       this._resolve = resolve
       this._reject = reject
+      this.start()
       return this.nextThen()
     })
   }
