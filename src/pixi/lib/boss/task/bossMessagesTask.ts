@@ -42,6 +42,7 @@ export class BossMessagesTask extends Task {
     return this
   }
   resolve(): void {
+    store.setMessageObject()
     this._resolve(true)
   }
   reject(): void {

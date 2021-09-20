@@ -30,7 +30,7 @@ export class TaskList extends Task {
       this.index++
       resolve()
     }
-    return task.createTaskPromise()
+    return task.start().createTaskPromise()
   }
   createTaskPromise(): Promise<unknown> {
     this.index = 0

@@ -20,7 +20,7 @@ export function createBossTask(
   return new TaskList([
     new BossEntryTask(boss, app),
     new BossMessagesTask(bossEntryMessage),
-    // new BossImpactTask(boss, app, organization),
+    new BossImpactTask(boss, app, organization),
     // new BossMessagesTask(successMessage),
     // new YourName(),
   ])
