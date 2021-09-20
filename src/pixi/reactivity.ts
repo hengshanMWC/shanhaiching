@@ -43,7 +43,7 @@ export const store = {
     signShow: false,
     signValue: '',
   }),
-  setMessageObject(obj: Message): void {
+  setMessageObject(obj?: Message): void {
     this.state.messageObject = { ...messageObject, ...obj }
   },
   setSignShow(value = false): void {

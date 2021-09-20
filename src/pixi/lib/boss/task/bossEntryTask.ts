@@ -45,6 +45,7 @@ export class BossEntryTask extends Task {
     return this
   }
   resolve(): void {
+    this.pause()
     this._resolve(true)
   }
   reject(): void {

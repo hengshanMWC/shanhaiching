@@ -6,6 +6,7 @@ import {
   gameValue,
   isIdle,
   isSuccess,
+  store,
 } from '../reactivity'
 import { regression } from '../pc/createWhale'
 import { createTaskList } from '../task'
@@ -39,6 +40,7 @@ export class GameCycle implements Next {
   // 继续
   continue(): void {
     this.handleIng()
+    this.taskList.start()
   }
   // 结束
   end(): void {
@@ -51,7 +53,6 @@ export class GameCycle implements Next {
   }
   handleIng(): void {
     this.game.organization.openTickHitTestRectangle()
-    this.taskList.start()
     startGameTime()
   }
   regression(): void {
@@ -64,6 +65,7 @@ export class GameCycle implements Next {
       regression(whale)
     })
     this.game.organization.addPC(...this.game.whales)
+    store.setMessageObject()
   }
   reject(): void {
     this.taskList.reject()

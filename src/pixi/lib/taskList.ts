@@ -7,7 +7,6 @@ export class TaskList extends Task {
   constructor(tasks: Array<Task>) {
     super()
     this.tasks = tasks
-    this.index = 0
   }
   get currentTask(): Task {
     return this.tasks[this._index]
@@ -16,8 +15,8 @@ export class TaskList extends Task {
     return this._index
   }
   set index(value: number) {
+    this._index = value
     if (this.tasks.length > value) {
-      this._index = value
       this.setCurrentTask()
     }
   }
