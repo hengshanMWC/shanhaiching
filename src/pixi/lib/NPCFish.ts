@@ -1,9 +1,6 @@
 import { Application, Sprite, TickerCallback } from 'pixi.js'
 import { Fish } from './fish'
-export enum Direction {
-  l = 'l',
-  r = 'r',
-}
+import { Direction } from '../typings/index'
 export class NPCFish extends Fish {
   speed
   direction

@@ -1,6 +1,7 @@
 import { Application, TickerCallback, Sprite } from 'pixi.js'
 import { Boss } from '../index'
 import { Task } from '../../task'
+import { Direction } from '../../../typings/index'
 interface Route {
   frame: number
   speedX: number
@@ -22,7 +23,7 @@ export class Impact extends Task {
       width: number
       height: number
     },
-    speed = 2
+    speed = 5
   ) {
     super()
     this.boss = boss
@@ -30,19 +31,37 @@ export class Impact extends Task {
     this.speed = speed
     this.targeData = targeData
     this.route = this.getRoute()
+    console.log(this.route)
     this.move = () => {
       if (this.isArrive) {
         this.resolve()
       } else {
-        if (Math.abs(this.distanceX) >= Math.abs(this.route.speedX)) {
-          this.sprite.x += this.route.speedX
+        console.log(this.distanceX, this.distanceY)
+        if (this.directionX === Direction.r) {
+          if (this.distanceX <= this.route.speedX) {
+            this.sprite.x += this.route.speedX
+          } else {
+            this.sprite.x += this.distanceX
+          }
         } else {
-          this.sprite.x += this.distanceX
+          if (this.distanceX >= this.route.speedX) {
+            this.sprite.x -= this.route.speedX
+          } else {
+            this.sprite.x -= this.distanceX
+          }
         }
-        if (Math.abs(this.distanceY) >= Math.abs(this.route.speedY)) {
-          this.sprite.y += this.route.speedY
+        if (this.directionY === Direction.b) {
+          if (this.distanceY <= this.route.speedY) {
+            this.sprite.y += this.route.speedY
+          } else {
+            this.sprite.y += this.distanceY
+          }
         } else {
-          this.sprite.y += this.distanceY
+          if (this.distanceY >= this.route.speedY) {
+            this.sprite.y -= this.route.speedY
+          } else {
+            this.sprite.y -= this.distanceY
+          }
         }
       }
     }
@@ -75,12 +94,19 @@ export class Impact extends Task {
     return this.currentPlace.y - this.targetPlace.y
   }
   get isArrive(): boolean {
-    return !(this.distanceX || this.distanceY)
+    return !(this.distanceX && this.distanceY)
+  }
+  get directionX(): Direction.l | Direction.r {
+    return this.distanceX > 0 ? Direction.l : Direction.r
+  }
+  get directionY(): Direction.t | Direction.b {
+    return this.distanceY > 0 ? Direction.t : Direction.b
   }
   createTaskPromise(): Promise<unknown> {
     return new Promise((resolve, reject) => {
       this._resolve = resolve
       this._reject = reject
+      this.start()
     })
   }
   getRoute(): Route {
@@ -89,13 +115,13 @@ export class Impact extends Task {
       return {
         frame,
         speedX: this.speed,
-        speedY: frame / this.distanceY,
+        speedY: this.distanceY / frame,
       }
     } else {
       const frame = this.distanceY / this.speed
       return {
         frame,
-        speedX: frame / this.distanceX,
+        speedX: this.distanceX / frame,
         speedY: this.speed,
       }
     }
@@ -109,6 +135,7 @@ export class Impact extends Task {
     return this
   }
   resolve(): void {
+    this.pause()
     this._resolve(true)
   }
   reject(): void {

@@ -17,7 +17,7 @@ export class BossImpactTask extends Task {
     boss: Boss,
     app: Application,
     organization: Organization,
-    loss = 10
+    loss = 1
   ) {
     super()
     this.boss = boss
@@ -62,7 +62,7 @@ export class BossImpactTask extends Task {
     if (this.boss.healthValue > this.loss) {
       this.boss.healthValue -= this.loss
       this.impact = new Impact(this.boss, this.app, this.getTargeData())
-      const resolve = this.impact.resolve
+      const resolve = this.impact.resolve.bind(this.impact)
       this.impact.resolve = () => {
         this.emitLoss()
         resolve()
@@ -70,7 +70,7 @@ export class BossImpactTask extends Task {
       return this.wait
         .start()
         .createTaskPromise()
-        .then(() => this.impact.start().createTaskPromise())
+        .then(() => this.impact.createTaskPromise())
     }
     return Promise.resolve()
   }

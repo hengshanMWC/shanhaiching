@@ -8,7 +8,7 @@ export function createTaskList(
   organization: Organization
 ): TaskList {
   return new TaskList([
-    new FactoryFishTask(app, organization),
+    // new FactoryFishTask(app, organization),
     createBossTask(app, organization),
   ])
 }
